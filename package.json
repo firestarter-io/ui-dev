@@ -1,0 +1,45 @@
+{
+	"name": "ui",
+	"version": "0.0.0",
+	"description": "Test UI for firestarter",
+	"main": "src/index.tsx",
+	"scripts": {
+		"start": "webpack serve --mode=development --hot",
+		"build": "webpack --mode=production"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/firestarter-io/ui.git"
+	},
+	"author": "Seth Lutske",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/firestarter-io/ui/issues"
+	},
+	"homepage": "https://github.com/firestarter-io/ui#readme",
+	"dependencies": {
+		"dotenv": "^10.0.0",
+		"leaflet": "^1.7.1",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-leaflet": "^3.2.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.14.6",
+		"@babel/preset-env": "^7.14.7",
+		"@babel/preset-react": "^7.14.5",
+		"@types/leaflet": "^1.7.4",
+		"@types/react": "^17.0.14",
+		"babel-loader": "^8.2.2",
+		"css-loader": "^5.2.6",
+		"dotenv-webpack": "^7.0.3",
+		"file-loader": "^6.2.0",
+		"html-webpack-plugin": "^5.3.2",
+		"style-loader": "^3.0.0",
+		"ts-loader": "^9.2.3",
+		"typescript": "^4.3.5",
+		"webpack": "^5.44.0",
+		"webpack-cli": "^4.7.2",
+		"webpack-dev-server": "^3.11.2"
+	}
+}
