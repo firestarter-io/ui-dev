@@ -81,10 +81,7 @@ const Map = (props) => {
 						/>
 					</LayersControl.BaseLayer>
 				)}
-				<LayersControl.BaseLayer
-					name="USFS Wildfire Probability"
-					checked={!!token}
-				>
+				<LayersControl.BaseLayer name="USFS Wildfire Probability">
 					<DynamicMapLayer
 						url="https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/ProbabilisticWildfireRisk/MapServer"
 						layers={[0]}
@@ -92,7 +89,7 @@ const Map = (props) => {
 						f="image"
 					/>
 				</LayersControl.BaseLayer>
-				<LayersControl.BaseLayer name="USFS 13 Fuel Models" checked={!token}>
+				<LayersControl.BaseLayer name="USFS 13 Fuel Models" checked>
 					<ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
 				</LayersControl.BaseLayer>
 				<LayersControl.BaseLayer name="LANDFIRE Fuels">

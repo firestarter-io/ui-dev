@@ -38,15 +38,8 @@ module.exports = {
 				},
 			},
 			{
-				test: /\.css$/,
-				use: [
-					{
-						loader: 'style-loader',
-					},
-					{
-						loader: 'css-loader',
-					},
-				],
+				test: /\.s[ac]ss|css$/i,
+				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
 				test: /\.(png|jpe?g|gif)$/i,

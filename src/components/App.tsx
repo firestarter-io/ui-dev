@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { bounds } from 'leaflet';
-import Map from './Map';
 import styled from 'styled-components';
 import GlobalStyles from './GlobalStyles';
+import Map from './Map';
+import UI from './UI';
 
 const Wrapper = styled.div`
 	height: 100%;
@@ -16,6 +17,7 @@ export default function App() {
 		<Wrapper>
 			<GlobalStyles />
 			<Map setMap={setMap} map={map} />
+			{map && <UI />}
 		</Wrapper>
 	);
 }
