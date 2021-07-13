@@ -1,6 +1,17 @@
+/*
+ * Firestarter.io
+ *
+ * Copyright (C) 2020 Blue Ohana, Inc.
+ * All rights reserved.
+ * The information in this software is subject to change without notice and
+ * should not be construed as a commitment by Blue Ohana, Inc.
+ *
+ */
+
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
 	entry: './src/index.tsx',
@@ -66,5 +77,8 @@ module.exports = {
 			template: './src/index.html',
 		}),
 		new Dotenv(),
+		new ESLintPlugin({
+			extensions: ['ts', 'tsx', 'js', 'jsx'],
+		}),
 	],
 };
