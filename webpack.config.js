@@ -15,6 +15,16 @@ module.exports = {
 		},
 		extensions: ['.ts', '.tsx', '.js', '.jsx'],
 	},
+	devServer: {
+		stats: {
+			colors: true,
+			hash: false,
+			version: false,
+			timings: false,
+			assets: false,
+			chunks: false,
+		},
+	},
 	module: {
 		rules: [
 			{
