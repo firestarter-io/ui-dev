@@ -8,17 +8,17 @@
  *
  */
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './components/App';
-import 'esri-leaflet';
-import 'esri-leaflet-geocoder';
-import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import App from "./components/App";
+import "esri-leaflet";
+import "esri-leaflet-geocoder";
+import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-	rootElement
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  rootElement
 );

@@ -107,7 +107,7 @@ class Sidebar extends React.Component<Props> {
     }
   }
 
-  onClose = (e): void => {
+  onClose = (e: MouseEvent): void => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -156,13 +156,12 @@ class Sidebar extends React.Component<Props> {
     return this.props.position === "left" ? offset : -offset;
   };
 
-  renderPanes(children): JSX.Element {
+  renderPanes(children: React.ReactElement<TabProps>[]): JSX.Element[] {
     return React.Children.map(children, (p) =>
       React.cloneElement(p, {
         onClose: this.onClose.bind(this),
-        closeIcon: this.props.closeIcon,
+        icon: this.props.closeIcon,
         active: p.props.id === this.props.selected,
-        position: this.props.position || "left",
       })
     );
   }

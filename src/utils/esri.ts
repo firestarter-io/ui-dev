@@ -15,25 +15,25 @@
  * @param expiration | Token expiration time
  */
 export async function getEsriToken(
-	client_id: string,
-	client_secret: string,
-	expiration: number = 3.6e6
+  client_id: string,
+  client_secret: string,
+  expiration = 3.6e6
 ): Promise<string> {
-	const authservice = 'https://www.arcgis.com/sharing/rest/oauth2/token';
-	const url = `${authservice}?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials&expiration=${expiration}`;
+  const authservice = "https://www.arcgis.com/sharing/rest/oauth2/token";
+  const url = `${authservice}?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials&expiration=${expiration}`;
 
-	let token;
+  let token;
 
-	await fetch(url, {
-		method: 'POST',
-	})
-		.then((res) => res.json())
-		.then((res) => {
-			token = res.access_token;
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+  await fetch(url, {
+    method: "POST",
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      token = res.access_token;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
-	return token;
+  return token;
 }
