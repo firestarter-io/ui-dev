@@ -1,6 +1,16 @@
-import React, { ReactChild, ReactComponentElement } from 'react';
+/*
+ * Firestarter.io
+ *
+ * Copyright (C) 2020 Blue Ohana, Inc.
+ * All rights reserved.
+ * The information in this software is subject to change without notice and
+ * should not be construed as a commitment by Blue Ohana, Inc.
+ *
+ */
+
+import React from 'react';
 import * as L from 'leaflet';
-import Tab, { TabProps } from './Tab';
+import { TabProps } from './Tab';
 import MenuButton, { MenuButtonProps } from './MenuButton';
 import './sidebar.scss';
 

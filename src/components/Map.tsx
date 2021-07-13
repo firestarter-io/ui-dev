@@ -1,3 +1,13 @@
+/*
+ * Firestarter.io
+ *
+ * Copyright (C) 2020 Blue Ohana, Inc.
+ * All rights reserved.
+ * The information in this software is subject to change without notice and
+ * should not be construed as a commitment by Blue Ohana, Inc.
+ *
+ */
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import L from 'leaflet';

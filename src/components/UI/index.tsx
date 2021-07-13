@@ -1,3 +1,13 @@
+/*
+ * Firestarter.io
+ *
+ * Copyright (C) 2020 Blue Ohana, Inc.
+ * All rights reserved.
+ * The information in this software is subject to change without notice and
+ * should not be construed as a commitment by Blue Ohana, Inc.
+ *
+ */
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -22,7 +32,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const UIOverlay = (props) => {
+const UIOverlay = ({ map }) => {
 	//  const useActiveArea = useSelector(state => state.useActiveArea)
 	//  const openTab = useSelector(state => state.sidebarTab)
 	//  const showActiveArea = (openTab === 'externalConrols' || openTab === 'ui') ? true : false;
@@ -32,7 +42,7 @@ const UIOverlay = (props) => {
 
 	return (
 		<Wrapper>
-			<Sidebar map={undefined} />
+			<Sidebar map={map} />
 			{/* {useActiveArea && <ActiveAreaExternal className="external" style={style} map={props.map} />} */}
 		</Wrapper>
 	);
