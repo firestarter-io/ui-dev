@@ -44,7 +44,7 @@ module.exports = {
 		'jsx-a11y/no-static-element-interactions': [0],
 		// 	'member-access': [0],
 		// 	'no-empty-interface': 'off',
-		// 	'import/no-unresolved': 'off',
+		'import/no-unresolved': 'off',
 		// 	'dot-notation': 'off',
 		// 	'interface-name': [0, 'never-prefix'],
 		'react/jsx-filename-extension': [
@@ -54,7 +54,7 @@ module.exports = {
 		'react/destructuring-assignment': [0],
 		// 	'react/prefer-stateless-function': [1, { ignorePureComponents: true }],
 		// 	'react/prop-types': [0],
-		// 	'import/extensions': 'off',
+		'import/extensions': 'off',
 		// 	'prettier/prettier': ['error'],
 		// 	'react/require-default-props': [0],
 		// 	'react/no-unused-prop-types': [0],
@@ -64,7 +64,7 @@ module.exports = {
 		'no-use-before-define': 'off',
 		'@typescript-eslint/no-use-before-define': ['error'],
 		// 	'no-shadow': [0],
-		// 	'@typescript-eslint/ban-types': 'off',
+		'@typescript-eslint/ban-types': 'off',
 		// 	'@typescript-eslint/no-non-null-assertion': 'off',
 		// 	'import/prefer-default-export': [0],
 		// 	'import/no-extraneous-dependencies': [
@@ -74,7 +74,8 @@ module.exports = {
 		// 		},
 		// 	],
 		// 	'@typescript-eslint/no-empty-function': [0],
-		// 	'no-plusplus': [0],
+		'no-plusplus': [0],
+		'no-console': [0],
 		// 	'no-underscore-dangle': [0],
 		// },
 		// settings: {

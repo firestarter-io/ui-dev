@@ -8,7 +8,7 @@
  *
  */
 
-import React from "react";
+import React, { MouseEvent } from "react";
 import * as L from "leaflet";
 import { TabProps } from "./Tab";
 import MenuButton, { MenuButtonProps } from "./MenuButton";
@@ -125,7 +125,7 @@ class Sidebar extends React.Component<Props> {
     }
   };
 
-  onOpen = (e, tabid) => {
+  onOpen = (e: MouseEvent, tabid: string): void => {
     e.preventDefault();
     e.stopPropagation();
     if (this.props.onOpen) {
@@ -142,7 +142,7 @@ class Sidebar extends React.Component<Props> {
     }
   };
 
-  getOffset = () => {
+  getOffset = (): number => {
     const windowSize = window.innerWidth;
     let offset;
     for (let i = 0; i < breakpoints.length - 1; i++) {
@@ -156,7 +156,7 @@ class Sidebar extends React.Component<Props> {
     return this.props.position === "left" ? offset : -offset;
   };
 
-  renderPanes(children) {
+  renderPanes(children): JSX.Element {
     return React.Children.map(children, (p) =>
       React.cloneElement(p, {
         onClose: this.onClose.bind(this),
@@ -167,7 +167,7 @@ class Sidebar extends React.Component<Props> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     const position = ` sidebar-${this.props.position || "left"}`;
     const collapsed = this.props.collapsed ? " collapsed" : "";
     const tabs = React.Children.toArray(this.props.children);
