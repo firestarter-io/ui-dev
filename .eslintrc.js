@@ -24,13 +24,20 @@ module.exports = {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
   },
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"], // Your TypeScript files extension
+      parserOptions: {
+        project: ["./tsconfig.json"], // Specify it only for TypeScript files
+      },
+    },
+  ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true, // Allows for the parsing of JSX
     },
     ecmaVersion: 2018,
-    project: "./tsconfig.json",
     sourceType: "module",
   },
   plugins: ["react", "react-hooks", "prettier", "@typescript-eslint"],
@@ -40,7 +47,6 @@ module.exports = {
     "jsx-a11y/aria-role": [0],
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/href-no-hash": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": [0],
     // 	'member-access': [0],
     // 	'no-empty-interface': 'off',
@@ -53,6 +59,7 @@ module.exports = {
       1,
       { extensions: [".js", ".jsx", ".tsx", ".ts"] },
     ],
+    "import/order": [1],
     "react/destructuring-assignment": [0],
     // 	'react/prefer-stateless-function': [1, { ignorePureComponents: true }],
     // 	'react/prop-types': [0],
