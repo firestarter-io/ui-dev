@@ -29,7 +29,7 @@ const MapEvents: React.FC = () => {
   const map = useMapEvents({
     click: (e) => {
       console.log(e.latlng);
-      fetch("http://localhost:4424/api/campaign", {
+      fetch("/api/campaign", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,10 +105,10 @@ const Map: React.FC<Props> = (props: Props) => {
             f="image"
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="USFS 13 Fuel Models" checked>
+        <LayersControl.BaseLayer name="USFS 13 Fuel Models">
           <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="LANDFIRE Fuels">
+        <LayersControl.BaseLayer name="LANDFIRE Fuels" checked>
           <DynamicMapLayer
             url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
             layers={[21]}

@@ -27,6 +27,13 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   devServer: {
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:9090",
+        secure: false,
+      },
+    },
     stats: {
       colors: true,
       hash: false,
