@@ -10,6 +10,7 @@
 
 import React, { useState } from "react";
 import { FiChevronLeft, FiHome, FiLayers, FiSettings } from "react-icons/fi";
+import { GrPowerReset } from "react-icons/gr";
 import Sidebar from "./Sidebar";
 import Tab from "./Tab";
 
@@ -84,6 +85,16 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
 
       <Tab id="layers" header="Custom Layer Types" icon={<FiLayers />}>
         <p>Custom layers tab</p>
+      </Tab>
+
+      <Tab
+        id="clear"
+        header="Clear"
+        icon={<GrPowerReset />}
+        anchor="bottom"
+        quickClick={() => console.log("clear")}
+      >
+        <p>Reset the campaign</p>
       </Tab>
 
       <Tab

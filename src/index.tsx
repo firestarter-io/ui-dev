@@ -10,7 +10,9 @@
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import App from "./components/App";
+import { store } from "./store";
 import "esri-leaflet";
 import "esri-leaflet-geocoder";
 import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
@@ -18,7 +20,9 @@ import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   rootElement
 );

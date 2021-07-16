@@ -198,6 +198,7 @@ class Sidebar extends React.Component<Props> {
                 onClose={this.onClose}
                 onOpen={this.onOpen}
                 map={this.props.map || null}
+                quickClick={t.props.quickClick}
               />
             ))}
           </ul>
@@ -213,6 +214,7 @@ class Sidebar extends React.Component<Props> {
                 onClose={this.onClose}
                 onOpen={this.onOpen}
                 map={this.props.map || null}
+                quickClick={t.props.quickClick}
               />
             ))}
           </ul>

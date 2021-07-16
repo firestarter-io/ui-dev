@@ -21,6 +21,7 @@ export interface MenuButtonProps {
   collapsed: boolean;
   header?: string;
   map: L.Map;
+  quickClick?: Function;
 }
 
 const MenuButton: React.FC<MenuButtonProps> = (props: MenuButtonProps) => {
@@ -53,7 +54,13 @@ const MenuButton: React.FC<MenuButtonProps> = (props: MenuButtonProps) => {
         role="tab"
         title={props.header}
         type="submit"
-        onClick={(e) => onClick(e, props.id)}
+        onClick={(e) => {
+          if (props.quickClick) {
+            props.quickClick();
+          } else {
+            onClick(e, props.id);
+          }
+        }}
       >
         {" "}
         {icon}

@@ -19,6 +19,7 @@ export interface TabProps {
   anchor?: string;
   disabled?: boolean;
   icon: React.ElementType | React.ReactNode | HTMLElement;
+  quickClick?: Function;
 }
 
 const closeIconSelector = (props) => {
