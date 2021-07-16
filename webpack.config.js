@@ -34,6 +34,11 @@ module.exports = {
         secure: false,
       },
     },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Methods": "*",
+    },
     stats: {
       colors: true,
       hash: false,
