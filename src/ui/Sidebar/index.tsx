@@ -19,7 +19,7 @@ interface Props {
 }
 
 const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
-  const [openTab, setOpenTab] = useState<string | false>("home");
+  const [openTab, setOpenTab] = useState<string | false>(false);
 
   const onClose = () => {
     setOpenTab(false);
@@ -29,9 +29,9 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
     setOpenTab(id);
   };
 
-  const setTab = (id) => {
-    setOpenTab(id);
-  };
+  // const setTab = (id) => {
+  //   setOpenTab(id);
+  // };
 
   return (
     <Sidebar
@@ -46,41 +46,12 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
       rehomeControls
     >
       <Tab id="home" header="Home" icon={<FiHome />} onClose={onClose} active>
+        <p>Welcome to the FireStarter develpment UI. </p>
         <p>
-          Welcome to the React-Leaflet V3 custom components library. This
-          example page shows off some of the custom components that have been
-          built and adapted for react-leaflet v3.
+          This react-leaflet is designed for quick analysis of the underlying
+          firestarter algorithm, which lives in the node-altorithm repository.
         </p>
-        <p>
-          <button className="menu btn-link" onClick={() => setTab("ui")}>
-            Layout Components
-          </button>
-          <button
-            className="menu btn-link"
-            onClick={() => setTab("externalConrols")}
-          >
-            Externalized Controls
-          </button>
-          <button className="menu btn-link" onClick={() => setTab("layers")}>
-            Custom Layers
-          </button>
-          <button className="menu btn-link" onClick={() => setTab("uilayers")}>
-            Markers and Popups
-          </button>
-          <button
-            className="menu btn-link"
-            onClick={() => setTab("vectorlayers")}
-          >
-            Custom Path Components
-          </button>
-          <button
-            className="menu btn-link"
-            onClick={() => setTab("esrileaflet")}
-          >
-            Esri-Leaflet for React-Leaflet
-          </button>
-        </p>
-        <p>Check out the github page for more information.</p>
+        <p>Click the map to begin a campaign at that point.</p>
       </Tab>
 
       <Tab id="layers" header="Custom Layer Types" icon={<FiLayers />}>

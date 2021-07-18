@@ -18,7 +18,7 @@ import {
 } from "react-leaflet";
 import { ImageMapLayer, DynamicMapLayer } from "react-esri-leaflet";
 import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearch";
-import { getEsriToken } from "../utils/esri";
+import { getEsriToken } from "../../utils/esri";
 
 const MapContainer = styled(UnstyledMapContainer)`
   height: 100%;
@@ -89,7 +89,7 @@ const Map: React.FC<Props> = (props: Props) => {
       <MapEvents />
       <LayersControl collapsed={false}>
         {token && (
-          <LayersControl.BaseLayer name="ESRI Aspect">
+          <LayersControl.BaseLayer name="ESRI Aspect" checked>
             <ImageMapLayer
               url="https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer"
               renderingRule={{ rasterFunction: "Aspect_Map" }}
@@ -108,7 +108,7 @@ const Map: React.FC<Props> = (props: Props) => {
         <LayersControl.BaseLayer name="USFS 13 Fuel Models">
           <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="LANDFIRE Fuels" checked>
+        <LayersControl.BaseLayer name="LANDFIRE Fuels">
           <DynamicMapLayer
             url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
             layers={[21]}
