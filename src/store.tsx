@@ -12,9 +12,21 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 
+import mapReducer, { State as MapState } from "./map/store/reducer";
+
+/**
+ * Combined state of all reducer states
+ */
+export interface ApplicationState {
+  /**
+   * State of the central Map component
+   */
+  map: MapState;
+}
+
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ map: mapReducer });
 
 export const store = createStore(
   rootReducer,
