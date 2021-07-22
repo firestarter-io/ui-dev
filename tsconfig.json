@@ -9,6 +9,12 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": "./src",
+    "paths": {
+      "common/*": ["common/*"],
+      "map/*": ["map/*"],
+      "ui/*": ["ui/*"]
+    }
   }
 }

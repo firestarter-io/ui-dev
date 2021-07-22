@@ -11,6 +11,8 @@
 import React, { useState } from "react";
 import { FiChevronLeft, FiHome, FiLayers, FiSettings } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
+import { useDispatch } from "react-redux";
+import { ActionCreators } from "common/store/server/actions";
 import Sidebar from "./Sidebar";
 import Tab from "./Tab";
 
@@ -20,6 +22,7 @@ interface Props {
 
 const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
   const [openTab, setOpenTab] = useState<string | false>(false);
+  const dispatch = useDispatch();
 
   const onClose = () => {
     setOpenTab(false);
@@ -63,7 +66,9 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
         header="Clear"
         icon={<GrPowerReset />}
         anchor="bottom"
-        quickClick={() => console.log("clear")}
+        quickClick={() => {
+          dispatch(ActionCreators.SaveMapReference());
+        }}
       >
         <p>Reset the campaign</p>
       </Tab>
