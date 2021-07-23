@@ -10,7 +10,6 @@
 
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import L from "leaflet";
 import {
   MapContainer as UnstyledMapContainer,
   useMapEvents,
@@ -19,7 +18,8 @@ import {
 import { ImageMapLayer, DynamicMapLayer } from "react-esri-leaflet";
 import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearch";
 import { useDispatch } from "react-redux";
-import { ActionCreators } from "../store/actions";
+import { ActionCreators as CampaignActionCreators } from "common/store/campaign/actions";
+import { ActionCreators as MapActionCreators } from "../store/actions";
 import { getEsriToken } from "../../utils/esri";
 
 const MapContainer = styled(UnstyledMapContainer)`
@@ -28,36 +28,39 @@ const MapContainer = styled(UnstyledMapContainer)`
 `;
 
 const MapEvents: React.FC = () => {
-  const map = useMapEvents({
+  const dispatch = useDispatch();
+
+  useMapEvents({
     click: (e) => {
-      console.log(e.latlng);
-      fetch("/api/campaign", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          latlng: e.latlng,
-          zoom: map.getZoom(),
-        }),
-      })
-        .then((r) => r.json())
-        .then((r) => {
-          if (r.extentBounds) {
-            const square = L.rectangle(
-              L.latLngBounds(
-                r.extentBounds._northEast,
-                r.extentBounds._southWest
-              )
-            );
-            square.addTo(map);
-          }
-        })
-        .catch((e) => console.log(e));
+      dispatch(CampaignActionCreators.RequestNewCampaign({ latlng: e.latlng }));
+      // console.log(e.latlng);
+      // fetch("/api/campaign", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     latlng: e.latlng,
+      //     zoom: map.getZoom(),
+      //   }),
+      // })
+      //   .then((r) => r.json())
+      //   .then((r) => {
+      //     if (r.extentBounds) {
+      //       const square = L.rectangle(
+      //         L.latLngBounds(
+      //           r.extentBounds._northEast,
+      //           r.extentBounds._southWest
+      //         )
+      //       );
+      //       square.addTo(map);
+      //     }
+      //   })
+      //   .catch((e) => console.log(e));
     },
-    zoom() {
-      console.log(map.getZoom());
-    },
+    // zoom() {
+    //   console.log(map.getZoom());
+    // },
   });
   return null;
 };
@@ -81,7 +84,7 @@ const Map: React.FC = () => {
       id="mapId"
       zoom={12}
       whenCreated={(map) => {
-        dispatch(ActionCreators.SaveMapReference(map));
+        dispatch(MapActionCreators.SaveMapReference(map));
       }}
       center={{ lat: 34.6, lng: -118.4 }}
     >

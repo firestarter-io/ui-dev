@@ -65,6 +65,7 @@ module.exports = {
     // 	'react/prop-types': [0],
     "import/extensions": "off",
     "@typescript-eslint/no-var-requires": [0],
+    "@typescript-eslint/ban-ts-comment": [0],
     // 	'prettier/prettier': ['error'],
     // 	'react/require-default-props': [0],
     // 	'react/no-unused-prop-types': [0],

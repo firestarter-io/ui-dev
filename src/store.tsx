@@ -13,8 +13,12 @@ import createSagaMiddleware from "redux-saga";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { all, fork } from "redux-saga/effects";
 
-import mapReducer, { State as MapState } from "./map/store/reducer";
-import serverSagas from "./common/store/server/sagas";
+import mapReducer, { State as MapState } from "map/store/reducer";
+import serverSagas from "common/store/server/sagas";
+import campaignReducer, {
+  State as CampaignState,
+} from "common/store/campaign/reducer";
+import campaignSagas from "common/store/campaign/sagas";
 
 /**
  * Combined state of all reducer states
@@ -24,13 +28,17 @@ export interface ApplicationState {
    * State of the central Map component
    */
   map: MapState;
+  /**
+   * State of the current Campaign
+   */
+  campaign: CampaignState;
 }
 
 /**
  * Combines all sagas into one root saga to be linked to redux
  */
 function* rootSaga(): Generator {
-  yield all([fork(serverSagas)]);
+  yield all([fork(serverSagas), fork(campaignSagas)]);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -38,7 +46,10 @@ const sagaMiddleware = createSagaMiddleware();
 /**
  * Combines all reducers into one root reducer to create the total store state
  */
-const rootReducer = combineReducers({ map: mapReducer });
+const rootReducer = combineReducers({
+  map: mapReducer,
+  campaign: campaignReducer,
+});
 
 /**
  * The redux store for the application
@@ -47,5 +58,8 @@ export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
+
+// @ts-ignore
+window.store = store;
 
 sagaMiddleware.run(rootSaga);
