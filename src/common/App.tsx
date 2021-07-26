@@ -8,13 +8,11 @@
  *
  */
 
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import GlobalStyles from "./GlobalStyles";
 import Map from "../map/components/Map";
 import UI from "../ui";
-import { ApplicationState } from "../store";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -22,13 +20,13 @@ const Wrapper = styled.div`
 `;
 
 export const App: React.FC = () => {
-  const map = useSelector((state: ApplicationState) => state.map.ref);
+  const [map, setMap] = useState<L.Map>();
 
   return (
     <Wrapper>
       <GlobalStyles />
-      <Map />
-      {map && <UI />}
+      <Map setMap={setMap} />
+      {map && <UI map={map} />}
     </Wrapper>
   );
 };

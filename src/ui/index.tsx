@@ -11,9 +11,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
-import { ApplicationState } from "../store";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -33,15 +31,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const UIOverlay: React.FC = () => {
+interface UIOverlayProps {
+  map: L.Map;
+}
+
+const UIOverlay: React.FC<UIOverlayProps> = ({ map }: UIOverlayProps) => {
   //  const useActiveArea = useSelector(state => state.useActiveArea)
   //  const openTab = useSelector(state => state.sidebarTab)
   //  const showActiveArea = (openTab === 'externalConrols' || openTab === 'ui') ? true : false;
   //  const style = showActiveArea
   //     ? {}
   //     : {border: 'none'}
-
-  const map = useSelector((state: ApplicationState) => state.map.ref);
 
   return (
     <Wrapper>

@@ -19,7 +19,6 @@ import { ImageMapLayer, DynamicMapLayer } from "react-esri-leaflet";
 import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearch";
 import { useDispatch } from "react-redux";
 import { ActionCreators as CampaignActionCreators } from "common/store/campaign/actions";
-import { ActionCreators as MapActionCreators } from "../store/actions";
 import { getEsriToken } from "../../utils/esri";
 
 const MapContainer = styled(UnstyledMapContainer)`
@@ -65,9 +64,12 @@ const MapEvents: React.FC = () => {
   return null;
 };
 
-const Map: React.FC = () => {
+interface MapProps {
+  setMap: React.Dispatch<React.SetStateAction<L.Map>>;
+}
+
+const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const [token, setToken] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     getEsriToken("JIFxHtUs7w96394I", "8068058a0804412eafe2ddbd6f78e961").then(
@@ -84,7 +86,8 @@ const Map: React.FC = () => {
       id="mapId"
       zoom={12}
       whenCreated={(map) => {
-        dispatch(MapActionCreators.SaveMapReference(map));
+        // dispatch(MapActionCreators.SaveMapReference(map))
+        setMap(map);
       }}
       center={{ lat: 34.6, lng: -118.4 }}
     >
