@@ -9,16 +9,19 @@
  */
 
 import React, { useEffect, useState } from "react";
+import * as L from "leaflet";
 import styled from "styled-components";
 import {
   MapContainer as UnstyledMapContainer,
   useMapEvents,
   LayersControl,
+  Rectangle,
 } from "react-leaflet";
 import { ImageMapLayer, DynamicMapLayer } from "react-esri-leaflet";
 import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearch";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ActionCreators as CampaignActionCreators } from "common/store/campaign/actions";
+import { ApplicationState } from "store";
 import { getEsriToken } from "../../utils/esri";
 
 const MapContainer = styled(UnstyledMapContainer)`
@@ -70,6 +73,9 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const [token, setToken] = useState("");
+  const extentBounds = useSelector(
+    (state: ApplicationState) => state.campaign.extentBounds
+  );
 
   useEffect(() => {
     getEsriToken("JIFxHtUs7w96394I", "8068058a0804412eafe2ddbd6f78e961").then(
@@ -92,6 +98,10 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
       center={{ lat: 34.6, lng: -118.4 }}
     >
       <MapEvents />
+      {extentBounds &&
+        extentBounds.map((bounds, i) => (
+          <Rectangle key={`bounds-${i}`} bounds={Object.values(bounds)} />
+        ))}
       <LayersControl collapsed={false}>
         {token && (
           <LayersControl.BaseLayer name="ESRI Aspect" checked>

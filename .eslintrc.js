@@ -72,6 +72,7 @@ module.exports = {
     // 	'react/no-array-index-key': [0],
     // 	'react/jsx-props-no-spreading': [0],
     // 	'react/default-props-match-prop-types': [0],
+    "react/no-array-index-key": [0],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "no-shadow": [0],

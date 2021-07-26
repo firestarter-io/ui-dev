@@ -10,7 +10,12 @@
 
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import {
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  AnyAction,
+} from "redux";
 import { all, fork } from "redux-saga/effects";
 
 import mapReducer, { State as MapState } from "map/store/reducer";
@@ -46,10 +51,24 @@ const sagaMiddleware = createSagaMiddleware();
 /**
  * Combines all reducers into one root reducer to create the total store state
  */
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   map: mapReducer,
   campaign: campaignReducer,
 });
+
+/**
+ * Quick action reducer to refresh application state
+ */
+export const rootReducer = (
+  state: ApplicationState,
+  action: AnyAction
+): ApplicationState => {
+  if (action.type === "REFRESH") {
+    console.log("in here");
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
 
 /**
  * The redux store for the application
