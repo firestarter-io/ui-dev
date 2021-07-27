@@ -87,7 +87,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/index.html",
-      favicon: "./src/assets/flame-orange.png",
+      favicon: "./src/common/assets/flame-orange.png",
     }),
     new Dotenv(),
     new ESLintPlugin({
