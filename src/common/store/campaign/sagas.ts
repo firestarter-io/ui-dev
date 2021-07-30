@@ -11,12 +11,16 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import axios, { AxiosResponse } from "axios";
 import { PayloadMetaAction } from "typesafe-actions";
-import { ActionCreators, ActionTypes, NewCampaignPayload } from "./actions";
+import {
+  ActionCreators,
+  ActionTypes,
+  NewCampaignRequestPayload,
+} from "./actions";
 
 function* handleRequestNewCampaign(
   action: PayloadMetaAction<
     ActionTypes.REQUEST_NEW_CAMPAIGN,
-    NewCampaignPayload,
+    NewCampaignRequestPayload,
     undefined
   >
 ): Generator {
@@ -30,7 +34,7 @@ function* handleRequestNewCampaign(
 
     console.log(response.data);
 
-    yield put(ActionCreators.ReceiveExtentBounds(response.data));
+    yield put(ActionCreators.ReceiveNewCampaign(response.data));
   } catch (e) {
     console.log(e);
   }

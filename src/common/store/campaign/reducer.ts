@@ -8,23 +8,64 @@
  *
  */
 
+import { Matrix } from "mathjs";
 import { Action, ActionTypes } from "./actions";
 
-export interface State {
+interface Timestep {
   /**
-   * Array of extent bounds
+   * Index of the timestep in a campaign's timestep array
    */
-  extentBounds: L.LatLngBounds[];
+  index: number;
+  /**
+   * The unix timestamp of the time step
+   */
+  timestamp: number;
+  /**
+   * The human readable time of the timestep
+   */
+  time: string;
+  /**
+   * Weather forecast for the hour of the current TimeStep
+   */
+  weather: object;
+  /**
+   * Array of events that occurred in that timestep, if any
+   */
+  events: object[];
+  /**
+   * Array of extents currently active in the timestep
+   */
+  extents: {
+    latLngBounds: L.LatLngBounds;
+    bounds: L.Bounds;
+    pixelBounds: L.Bounds;
+    width: number;
+    height: number;
+    origin: L.Point;
+    averageDistance: number;
+    burnMatrix: Matrix;
+  }[];
 }
 
-const initialState: State = { extentBounds: [] };
+type Campaign = {
+  id: string;
+  startTime: number;
+  extents: {
+    bounds: L.LatLngBounds;
+    averageDistance: number;
+  }[];
+  timesteps: Timestep[];
+};
+
+export type State = Campaign | null;
+
+const initialState: State = null;
 
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
-    case ActionTypes.RECEIVE_EXTENT_BOUNDS:
+    case ActionTypes.RECEIVE_NEW_CAMPAIGN:
       return {
-        ...state,
-        extentBounds: [...state.extentBounds, ...action.payload],
+        ...action.payload,
       };
     default:
       return state;

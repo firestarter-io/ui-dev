@@ -18,21 +18,23 @@ export enum ActionTypes {
   /**
    * Recieve Campaign Extent bounds
    */
-  RECEIVE_EXTENT_BOUNDS = "campaign/RECEIVE_EXTENT_BOUNDS",
+  RECEIVE_NEW_CAMPAIGN = "campaign/RECEIVE_NEW_CAMPAIGN",
 }
 
-export interface NewCampaignPayload {
+export interface NewCampaignRequestPayload {
   latlng: L.LatLng;
 }
+
+export type Campaign = any;
 
 export const ActionCreators = {
   RequestNewCampaign: createAction(
     ActionTypes.REQUEST_NEW_CAMPAIGN,
-    (payload: NewCampaignPayload) => payload
+    (payload: NewCampaignRequestPayload) => payload
   )(),
-  ReceiveExtentBounds: createAction(
-    ActionTypes.RECEIVE_EXTENT_BOUNDS,
-    (payload: L.LatLngBounds[]) => payload
+  ReceiveNewCampaign: createAction(
+    ActionTypes.RECEIVE_NEW_CAMPAIGN,
+    (payload: Campaign) => payload
   )(),
 };
 

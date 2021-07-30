@@ -45,8 +45,8 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const [token, setToken] = useState("");
-  const extentBounds = useSelector(
-    (state: ApplicationState) => state.campaign.extentBounds
+  const extents = useSelector(
+    (state: ApplicationState) => state.campaign?.extents
   );
 
   useEffect(() => {
@@ -70,15 +70,17 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
     >
       <MapEvents />
 
-      {extentBounds &&
-        extentBounds.map((bounds, i) => (
-          <Rectangle
-            color="black"
-            fillOpacity={0}
-            key={`bounds-${i}`}
-            bounds={Object.values(bounds)}
-          />
-        ))}
+      {extents &&
+        extents.map((extent, i) => {
+          return (
+            <Rectangle
+              color="black"
+              fillOpacity={0}
+              key={`bounds-${i}`}
+              bounds={Object.values(extent.bounds)}
+            />
+          );
+        })}
 
       <LayersControl token={token} />
 

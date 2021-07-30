@@ -31,14 +31,15 @@ const LayersControl: React.FC<Props> = ({ token }: Props) => {
           />
         </RLLayersControl.BaseLayer>
       )}
-      <RLLayersControl.BaseLayer name="USFS Wildfire Probability">
+      {/* Backup in case LANDFIRE goes down again: */}
+      {/* <RLLayersControl.BaseLayer name="USFS Wildfire Probability">
         <DynamicMapLayer
           url="https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/ProbabilisticWildfireRisk/MapServer"
           layers={[0]}
           format="png32"
           f="image"
         />
-      </RLLayersControl.BaseLayer>
+      </RLLayersControl.BaseLayer> */}
       <RLLayersControl.BaseLayer name="USFS 13 Fuel Models">
         <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
       </RLLayersControl.BaseLayer>
