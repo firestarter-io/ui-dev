@@ -9,6 +9,7 @@
  */
 
 import { ActionType, createAction } from "typesafe-actions";
+import { Campaign } from "./reducer";
 
 export enum ActionTypes {
   /**
@@ -24,8 +25,6 @@ export enum ActionTypes {
 export interface NewCampaignRequestPayload {
   latlng: L.LatLng;
 }
-
-export type Campaign = any;
 
 export const ActionCreators = {
   RequestNewCampaign: createAction(

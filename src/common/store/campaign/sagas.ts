@@ -16,6 +16,7 @@ import {
   ActionTypes,
   NewCampaignRequestPayload,
 } from "./actions";
+import { Campaign } from "./reducer";
 
 function* handleRequestNewCampaign(
   action: PayloadMetaAction<
@@ -30,7 +31,7 @@ function* handleRequestNewCampaign(
       axios.post,
       "/api/campaign",
       action.payload
-    )) as AxiosResponse<L.LatLngBounds[]>;
+    )) as AxiosResponse<Campaign>;
 
     console.log(response.data);
 

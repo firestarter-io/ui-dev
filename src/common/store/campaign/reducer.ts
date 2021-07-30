@@ -47,7 +47,7 @@ interface Timestep {
   }[];
 }
 
-type Campaign = {
+export type Campaign = {
   id: string;
   startTime: number;
   extents: {
