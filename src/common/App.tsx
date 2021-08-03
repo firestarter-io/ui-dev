@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import GlobalStyles from "./GlobalStyles";
 import Map from "../map/components/Map";
-import UI from "../ui";
+import UI from "../ui/UIOverlay";
 
 const Wrapper = styled.div`
   height: 100%;
