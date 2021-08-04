@@ -10,8 +10,8 @@
 
 import React from "react";
 import styled from "styled-components";
-
 import Sidebar from "./Sidebar";
+import TimeSlider from "./TimeSlider";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -46,6 +46,7 @@ const UIOverlay: React.FC<UIOverlayProps> = ({ map }: UIOverlayProps) => {
   return (
     <Wrapper>
       <Sidebar map={map} />
+      <TimeSlider />
       {/* {useActiveArea && <ActiveAreaExternal className="external" style={style} map={props.map} />} */}
     </Wrapper>
   );

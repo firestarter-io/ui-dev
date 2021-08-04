@@ -11,7 +11,8 @@
 import styled, { css } from "styled-components";
 
 const trackH = "0.4em";
-const thumbD = "1.5em";
+const thumbH = "40px";
+const thumbD = "15px";
 const trackC = "#ccced0";
 const filllC = "#ffc069";
 
@@ -44,10 +45,11 @@ const thumb = css`
   box-sizing: border-box;
   border: none;
   width: ${thumbD};
-  height: ${thumbD};
-  border-radius: 50%;
+  height: ${thumbH};
+  border-radius: 3px;
   background: white;
   box-shadow: 0px 0px 5px rgba(66, 97, 255, 0.5);
+  cursor: pointer;
 `;
 
 /**
@@ -77,11 +79,11 @@ const Input = styled.input`
 
   --range: calc(var(--max) - var(--min));
   --ratio: calc((var(--val) - var(--min)) / var(--range));
-  --sx: calc(0.5 * ${thumbD} + var(--ratio) * (100% - ${thumbD}));
+  --sx: calc(0.5 * ${thumbH} + var(--ratio) * (100% - ${thumbH}));
 
   margin: 0;
   padding: 0;
-  height: ${thumbD};
+  height: ${thumbH};
   background: transparent;
   font: 1em/1 arial, sans-serif;
 
@@ -106,7 +108,7 @@ const Input = styled.input`
   }
 
   &::-webkit-slider-thumb {
-    margin-top: calc(0.5 * (${trackH} - ${thumbD}));
+    margin-top: calc(0.5 * (${trackH} - ${thumbH}));
     ${thumb};
   }
 
