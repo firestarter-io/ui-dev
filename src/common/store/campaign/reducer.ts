@@ -9,6 +9,7 @@
  */
 
 import { Matrix } from "mathjs";
+import dummycampaign from "common/constants/dummycampaign";
 import { Action, ActionTypes } from "./actions";
 
 interface Timestep {
@@ -59,7 +60,9 @@ export type Campaign = {
 
 export type State = Campaign | null;
 
-const initialState: State = null;
+const campaign: Campaign = JSON.parse(dummycampaign);
+
+const initialState: State = campaign;
 
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
