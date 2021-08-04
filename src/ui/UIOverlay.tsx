@@ -11,7 +11,7 @@
 import React from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
-import TimeSlider from "./TimeSlider/TimeSlider";
+import TimeSlider from "./TimeSlider";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -35,6 +35,9 @@ interface UIOverlayProps {
   map: L.Map;
 }
 
+/**
+ * The primary UI overlay which contains most non-map UI components
+ */
 const UIOverlay: React.FC<UIOverlayProps> = ({ map }: UIOverlayProps) => {
   //  const useActiveArea = useSelector(state => state.useActiveArea)
   //  const openTab = useSelector(state => state.sidebarTab)

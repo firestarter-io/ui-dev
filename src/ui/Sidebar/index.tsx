@@ -20,6 +20,9 @@ interface Props {
   map: L.Map;
 }
 
+/**
+ * Left Sidebar UI component
+ */
 const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
   const [openTab, setOpenTab] = useState<string | false>(false);
   const dispatch = useDispatch();

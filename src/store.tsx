@@ -64,7 +64,6 @@ export const rootReducer = (
   action: AnyAction
 ): ApplicationState => {
   if (action.type === "REFRESH") {
-    console.log("in here");
     return appReducer(undefined, action);
   }
   return appReducer(state, action);

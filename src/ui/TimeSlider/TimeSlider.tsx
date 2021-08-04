@@ -11,6 +11,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider";
+import dummycampaign from "common/constants/dummycampaign";
+import { Campaign } from "common/store/campaign/reducer";
+import * as lodash from "lodash";
 import { Handle, Track, Tick } from "./components";
 
 const sliderStyle: React.CSSProperties = {
@@ -40,23 +43,39 @@ const Wrapper = styled.div`
   margin-bottom: 2px;
 `;
 
+/**
+ * Primary time slider component which offers the user the ability to play back the
+ * timesteps of a campaign, or selectively choose which one to view
+ */
 const TimeSlider: React.FC = () => {
   const [value, setValue] = React.useState([70]);
 
-  const domain = [48, 84];
+  // Dummy campaign data for now:
+  const campaign: Campaign = JSON.parse(dummycampaign);
+
+  const domain = [
+    lodash.first(campaign.timesteps).timestamp,
+    lodash.last(campaign.timesteps).timestamp,
+  ];
+
+  const stepSize =
+    campaign.timesteps[1].timestamp - campaign.timesteps[0].timestamp;
+  const noOfSteps = campaign.timesteps.length;
+
+  const ticks = Array.from({ length: noOfSteps }).map(
+    (_, i) => domain[0] + i * stepSize
+  );
 
   const formatTicks = (d: number) => {
-    const feet = Math.floor(d / 12);
-    const inches = d % 12;
-
-    return `${feet} ft ${inches ? `${inches} in` : ""}`;
+    const date = new Date(d);
+    return date.getHours().toString();
   };
 
   return (
     <Wrapper>
       <Slider
         mode={1}
-        step={0.1}
+        step={stepSize}
         domain={domain}
         rootStyle={sliderStyle}
         // @ts-ignore
@@ -94,7 +113,7 @@ const TimeSlider: React.FC = () => {
             </div>
           )}
         </Tracks>
-        <Ticks values={[48, 54, 60, 66, 72, 78, 84]}>
+        <Ticks values={ticks}>
           {({ ticks }) => (
             <div className="slider-ticks" style={{ marginTop: "2px" }}>
               {ticks.map((tick) => (

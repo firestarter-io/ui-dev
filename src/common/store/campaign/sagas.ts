@@ -26,14 +26,11 @@ function* handleRequestNewCampaign(
   >
 ): Generator {
   try {
-    console.log(action.payload);
     const response = (yield call(
       axios.post,
       "/api/campaign",
       action.payload
     )) as AxiosResponse<Campaign>;
-
-    console.log(response.data);
 
     yield put(ActionCreators.ReceiveNewCampaign(response.data));
   } catch (e) {

@@ -19,6 +19,9 @@ interface Props {
   token: string;
 }
 
+/**
+ * Layers control component which offers several helpful layers to toggle
+ */
 const LayersControl: React.FC<Props> = ({ token }: Props) => {
   return (
     <RLLayersControl collapsed={false}>

@@ -43,6 +43,9 @@ interface MapProps {
   setMap: React.Dispatch<React.SetStateAction<L.Map>>;
 }
 
+/**
+ * The central leaflet map of the application
+ */
 const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const [token, setToken] = useState("");
   const extents = useSelector(
@@ -52,7 +55,6 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   useEffect(() => {
     getEsriToken("JIFxHtUs7w96394I", "8068058a0804412eafe2ddbd6f78e961").then(
       (token) => {
-        console.log(token);
         setToken(token);
       }
     );
