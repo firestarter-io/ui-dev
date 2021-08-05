@@ -9,11 +9,12 @@
  */
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider";
 import * as lodash from "lodash";
 import { ApplicationState } from "store";
+import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
 import { Handle, Track, Tick } from "./components";
 
 const sliderStyle: React.CSSProperties = {
@@ -48,10 +49,12 @@ const Wrapper = styled.div`
  * timesteps of a campaign, or selectively choose which one to view
  */
 const TimeSlider: React.FC = () => {
-  const [value, setValue] = React.useState([70]);
-
   // Dummy campaign data for now:
   const campaign = useSelector((state: ApplicationState) => state.campaign);
+  const currentTimestepValue = useSelector(
+    (state: ApplicationState) => state.view.currentTimestep
+  );
+  const dispatch = useDispatch();
 
   const domain = [
     lodash.first(campaign.timesteps).timestamp,
@@ -78,9 +81,12 @@ const TimeSlider: React.FC = () => {
         step={stepSize}
         domain={domain}
         rootStyle={sliderStyle}
-        // @ts-ignore
-        onChange={(value) => setValue(value)}
-        values={value}
+        onChange={(value) => {
+          dispatch(
+            ViewActionCreators.SetCurrentTimestep([value as unknown as number])
+          );
+        }}
+        values={[0]}
       >
         <Rail>
           {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}

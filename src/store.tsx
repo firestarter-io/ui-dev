@@ -17,13 +17,13 @@ import {
   AnyAction,
 } from "redux";
 import { all, fork } from "redux-saga/effects";
-
 import mapReducer, { State as MapState } from "map/store/reducer";
 import serverSagas from "common/store/server/sagas";
 import campaignReducer, {
   State as CampaignState,
 } from "common/store/campaign/reducer";
 import campaignSagas from "common/store/campaign/sagas";
+import viewReducer, { State as ViewState } from "common/store/view/reducer";
 
 /**
  * Combined state of all reducer states
@@ -37,6 +37,10 @@ export interface ApplicationState {
    * State of the current Campaign
    */
   campaign: CampaignState;
+  /**
+   * State of the current view of the current Campaign
+   */
+  view: ViewState;
 }
 
 /**
@@ -54,6 +58,7 @@ const sagaMiddleware = createSagaMiddleware();
 const appReducer = combineReducers({
   map: mapReducer,
   campaign: campaignReducer,
+  view: viewReducer,
 });
 
 /**
