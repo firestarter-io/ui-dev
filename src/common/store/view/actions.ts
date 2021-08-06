@@ -20,7 +20,7 @@ export enum ActionTypes {
 export const ActionCreators = {
   SetCurrentTimestep: createAction(
     ActionTypes.SET_CURRENT_TIMESTEP,
-    (payload: number[]) => payload
+    (payload: string) => payload
   )(),
 };
 

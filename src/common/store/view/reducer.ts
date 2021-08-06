@@ -14,11 +14,11 @@ export type State = {
   /**
    * The current timestep of the campaign being viewed
    */
-  currentTimestep: number[];
+  currentTimestep: string;
 };
 
 const initialState: State = {
-  currentTimestep: [0],
+  currentTimestep: "0",
 };
 
 const reducer = (state = initialState, action: Action): State => {

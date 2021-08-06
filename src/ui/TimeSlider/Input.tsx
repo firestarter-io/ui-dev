@@ -23,6 +23,7 @@ const track = css`
   background: ${trackC};
   border-radius: 0px;
   border: 1px solid rgb(155, 155, 155);
+  margin-right: -1px;
 `;
 
 const trackFill = css`
@@ -41,8 +42,6 @@ const thumb = css`
   width: ${thumbD};
   height: ${thumbH};
   position: "absolute";
-  margin-left: "-18px";
-  margin-top: "-8px";
   border-radius: 3px;
   background: ${thumbC};
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
@@ -108,6 +107,7 @@ const Input = styled.input`
 
   &::-webkit-slider-thumb {
     margin-top: calc(0.5 * (${trackH} - ${thumbH}));
+    margin-left: "-20px";
     ${thumb};
   }
 

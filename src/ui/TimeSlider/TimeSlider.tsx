@@ -11,28 +11,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider";
+import { Ticks } from "react-compound-slider";
 import * as lodash from "lodash";
 import { ApplicationState } from "store";
 import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
-import { Handle, Track, Tick } from "./components";
+import { Tick } from "./components";
 import Input from "./Input";
-
-const sliderStyle: React.CSSProperties = {
-  margin: "10px 0 40px 0",
-  position: "relative",
-  width: "100%",
-};
-
-const railStyle: React.CSSProperties = {
-  position: "absolute",
-  width: "100%",
-  height: 24,
-  borderRadius: 0,
-  cursor: "pointer",
-  border: "1px solid rgb(155,155,155)",
-  backgroundColor: "rgba(0, 0, 0, 0.1)",
-};
 
 const Wrapper = styled.div`
   align-self: end;
@@ -80,69 +64,6 @@ const TimeSlider: React.FC = () => {
 
   return (
     <Wrapper>
-      <Slider
-        mode={1}
-        step={stepSize}
-        domain={domain}
-        rootStyle={sliderStyle}
-        onChange={(value) => {
-          dispatch(
-            ViewActionCreators.SetCurrentTimestep([value as unknown as number])
-          );
-        }}
-        values={[0]}
-      >
-        <Rail>
-          {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}
-        </Rail>
-        <Handles>
-          {({ handles, getHandleProps }) => (
-            <div className="slider-handles">
-              {handles.map((handle) => (
-                <Handle
-                  key={handle.id}
-                  handle={handle}
-                  domain={domain}
-                  getHandleProps={getHandleProps}
-                />
-              ))}
-            </div>
-          )}
-        </Handles>
-        <Tracks right={false}>
-          {({ tracks, getTrackProps }) => (
-            <div className="slider-tracks">
-              {tracks.map(({ id, source, target }) => (
-                <Track
-                  key={id}
-                  source={source}
-                  target={target}
-                  getTrackProps={getTrackProps}
-                />
-              ))}
-            </div>
-          )}
-        </Tracks>
-        <Ticks values={ticks}>
-          {({ ticks }) => (
-            <div className="slider-ticks" style={{ marginTop: "2px" }}>
-              {ticks.map((tick) => {
-                const position =
-                  (100 * (tick.value - start)) / stepSize / ticks.length;
-                return (
-                  <Tick
-                    key={tick.id}
-                    format={formatTicks}
-                    tick={tick}
-                    count={ticks.length}
-                    position={position}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </Ticks>
-      </Slider>
       <div
         style={{
           position: "relative",
@@ -150,13 +71,26 @@ const TimeSlider: React.FC = () => {
           margin: "10px 0px 40px",
         }}
       >
-        <Input type="range" value="0" />
+        <Input
+          type="range"
+          value={currentTimestepValue}
+          min={start}
+          max={end}
+          step={stepSize}
+          onInput={(e) => {
+            dispatch(
+              ViewActionCreators.SetCurrentTimestep(
+                (e.target as HTMLInputElement).value
+              )
+            );
+          }}
+        />
         <Ticks values={ticks}>
           {({ ticks }) => (
             <div className="slider-ticks" style={{ marginTop: "-36px" }}>
               {ticks.map((tick) => {
-                const position =
-                  (100 * (tick.value - start)) / stepSize / ticks.length;
+                const position = (100 * (tick.value - start)) / spread;
+
                 return (
                   <Tick
                     key={tick.id}
