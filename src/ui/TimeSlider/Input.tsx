@@ -10,29 +10,24 @@
 
 import styled, { css } from "styled-components";
 
-const trackH = "0.4em";
+const trackH = "24px";
 const thumbH = "40px";
 const thumbD = "15px";
-const trackC = "#ccced0";
+const thumbC = "#34568f";
+const trackC = "rgba(0, 0, 0, 0.1)";
 const filllC = "#ffc069";
 
 const track = css`
   box-sizing: border-box;
-  border: none;
   height: 4px;
   background: ${trackC};
-  border-radius: 8px;
+  border-radius: 0px;
+  border: 1px solid rgb(155, 155, 155);
 `;
 
 const trackFill = css`
   ${track};
-  height: 6px;
-  background-color: transparent;
-  background-image: linear-gradient(${filllC}, ${filllC}),
-    linear-gradient(${trackC}, ${trackC});
-  background-size: var(--sx) 6px, calc(100% - var(--sx)) 4px;
-  background-position: left center, right center;
-  background-repeat: no-repeat;
+  height: ${trackH};
 `;
 
 const fill = css`
@@ -43,12 +38,14 @@ const fill = css`
 
 const thumb = css`
   box-sizing: border-box;
-  border: none;
   width: ${thumbD};
   height: ${thumbH};
+  position: "absolute";
+  margin-left: "-18px";
+  margin-top: "-8px";
   border-radius: 3px;
-  background: white;
-  box-shadow: 0px 0px 5px rgba(66, 97, 255, 0.5);
+  background: ${thumbC};
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
   cursor: pointer;
 `;
 
@@ -56,6 +53,8 @@ const thumb = css`
  * Styled input slider component
  */
 const Input = styled.input`
+  width: 100%;
+
   &,
   &::-webkit-slider-thumb {
     -webkit-appearance: none;

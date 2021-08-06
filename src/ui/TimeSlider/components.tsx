@@ -83,6 +83,7 @@ export const Track: React.FC<TrackProps> = ({
 interface TickProps {
   tick: SliderItem;
   count: number;
+  position: number;
   format: (val: number) => string;
 }
 
@@ -92,31 +93,35 @@ interface TickProps {
 export const Tick: React.FC<TickProps> = ({
   tick,
   count,
+  position,
   format,
-}: TickProps) => (
-  <div>
-    <div
-      style={{
-        position: "absolute",
-        marginTop: 14,
-        width: 1,
-        height: 10,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        left: `${tick.percent}%`,
-      }}
-    />
-    <div
-      style={{
-        position: "absolute",
-        marginTop: 30,
-        fontSize: 10,
-        textAlign: "center",
-        marginLeft: `${-(100 / count) / 2}%`,
-        width: `${100 / count}%`,
-        left: `${tick.percent}%`,
-      }}
-    >
-      {format(tick.value)}
+}: TickProps) => {
+  console.log(position);
+  return (
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          marginTop: 14,
+          width: 1,
+          height: 10,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          left: `${position}%`,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          marginTop: 30,
+          fontSize: 10,
+          textAlign: "center",
+          marginLeft: `${-(100 / count) / 2}%`,
+          width: `${100 / count}%`,
+          left: `${position}%`,
+        }}
+      >
+        {format(tick.value)}
+      </div>
     </div>
-  </div>
-);
+  );
+};

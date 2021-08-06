@@ -16,6 +16,7 @@ import * as lodash from "lodash";
 import { ApplicationState } from "store";
 import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
 import { Handle, Track, Tick } from "./components";
+import Input from "./Input";
 
 const sliderStyle: React.CSSProperties = {
   margin: "10px 0 40px 0",
@@ -38,6 +39,7 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 15px;
@@ -56,10 +58,12 @@ const TimeSlider: React.FC = () => {
   );
   const dispatch = useDispatch();
 
-  const domain = [
-    lodash.first(campaign.timesteps).timestamp,
-    lodash.last(campaign.timesteps).timestamp,
-  ];
+  const start = lodash.first(campaign.timesteps).timestamp;
+  const end = lodash.last(campaign.timesteps).timestamp;
+
+  const domain = [start, end];
+
+  const spread = end - start;
 
   const stepSize =
     campaign.timesteps[1].timestamp - campaign.timesteps[0].timestamp;
@@ -122,18 +126,51 @@ const TimeSlider: React.FC = () => {
         <Ticks values={ticks}>
           {({ ticks }) => (
             <div className="slider-ticks" style={{ marginTop: "2px" }}>
-              {ticks.map((tick) => (
-                <Tick
-                  key={tick.id}
-                  format={formatTicks}
-                  tick={tick}
-                  count={ticks.length}
-                />
-              ))}
+              {ticks.map((tick) => {
+                const position =
+                  (100 * (tick.value - start)) / stepSize / ticks.length;
+                return (
+                  <Tick
+                    key={tick.id}
+                    format={formatTicks}
+                    tick={tick}
+                    count={ticks.length}
+                    position={position}
+                  />
+                );
+              })}
             </div>
           )}
         </Ticks>
       </Slider>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          margin: "10px 0px 40px",
+        }}
+      >
+        <Input type="range" value="0" />
+        <Ticks values={ticks}>
+          {({ ticks }) => (
+            <div className="slider-ticks" style={{ marginTop: "-36px" }}>
+              {ticks.map((tick) => {
+                const position =
+                  (100 * (tick.value - start)) / stepSize / ticks.length;
+                return (
+                  <Tick
+                    key={tick.id}
+                    format={formatTicks}
+                    tick={tick}
+                    count={ticks.length}
+                    position={position}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </Ticks>
+      </div>
     </Wrapper>
   );
 };
