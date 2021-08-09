@@ -9,50 +9,49 @@
  */
 
 import styled, { css } from "styled-components";
+import { THUMB_HEIGHT, TRACK_HEIGHT } from "./TimeSlider";
 
-const trackH = "24px";
-const thumbH = "40px";
-const thumbD = "15px";
+const thumbHeight = "40px";
+const thumbWidth = "14px";
 const thumbC = "#34568f";
-const trackC = "rgba(0, 0, 0, 0.1)";
 const filllC = "#ffc069";
 
 const track = css`
   box-sizing: border-box;
-  height: 4px;
-  background: ${trackC};
+  height: 24px;
+  background: transparent;
   border-radius: 0px;
-  border: 1px solid rgb(155, 155, 155);
-  margin-right: -1px;
-`;
-
-const trackFill = css`
-  ${track};
-  height: ${trackH};
+  /* border: 1px solid green; */
 `;
 
 const fill = css`
-  height: ${trackH};
+  height: ${TRACK_HEIGHT};
   background: ${filllC};
   border-radius: 4px;
 `;
 
 const thumb = css`
   box-sizing: border-box;
-  width: ${thumbD};
-  height: ${thumbH};
+  width: ${thumbWidth};
+  height: ${thumbHeight};
   position: "absolute";
   border-radius: 3px;
   background: ${thumbC};
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  margin-top: -8px;
 `;
 
 /**
  * Styled input slider component
  */
 const Input = styled.input`
-  width: 100%;
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 26px;
+  width: calc(100% - 44px);
+  z-index: 50;
 
   &,
   &::-webkit-slider-thumb {
@@ -77,16 +76,16 @@ const Input = styled.input`
 
   --range: calc(var(--max) - var(--min));
   --ratio: calc((var(--val) - var(--min)) / var(--range));
-  --sx: calc(0.5 * ${thumbH} + var(--ratio) * (100% - ${thumbH}));
+  --sx: calc(0.5 * ${THUMB_HEIGHT} + var(--ratio) * (100% - ${THUMB_HEIGHT}));
 
   margin: 0;
   padding: 0;
-  height: ${thumbH};
+  height: ${THUMB_HEIGHT};
   background: transparent;
   font: 1em/1 arial, sans-serif;
 
   &::-webkit-slider-runnable-track {
-    ${trackFill};
+    ${track};
   }
 
   &::-moz-range-track {
@@ -106,7 +105,7 @@ const Input = styled.input`
   }
 
   &::-webkit-slider-thumb {
-    margin-top: calc(0.5 * (${trackH} - ${thumbH}));
+    margin-top: calc(0.5 * (${TRACK_HEIGHT} - ${thumbHeight}));
     margin-left: "-20px";
     ${thumb};
   }

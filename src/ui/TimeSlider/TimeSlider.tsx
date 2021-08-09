@@ -18,6 +18,11 @@ import { ActionCreators as ViewActionCreators } from "common/store/view/actions"
 import { Tick } from "./components";
 import Input from "./Input";
 
+export const TRACK_HEIGHT = "24px";
+export const THUMB_HEIGHT = "40px";
+export const THUMB_WIDTH = "14px";
+export const PADDING = "30px";
+
 const Wrapper = styled.div`
   align-self: end;
   background-color: #ffffff;
@@ -28,6 +33,30 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 15px;
   margin-bottom: 2px;
+  position: relative;
+  height: 120px;
+`;
+
+const Track = styled.div`
+  position: absolute;
+  left: ${PADDING};
+  right: calc(${PADDING} - 1px);
+  box-sizing: border-box;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0px;
+  border: 1px solid rgb(155, 155, 155);
+  top: 26px;
+  height: 24px;
+  pointer-events: none;
+`;
+
+const TicksWrapper = styled.div`
+  height: 10px;
+  width: calc(100% - ${PADDING});
+  margin-top: -56px;
+  position: relative;
+  z-index: 30;
 `;
 
 /**
@@ -64,47 +93,40 @@ const TimeSlider: React.FC = () => {
 
   return (
     <Wrapper>
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          margin: "10px 0px 40px",
-        }}
-      >
-        <Input
-          type="range"
-          value={currentTimestepValue}
-          min={start}
-          max={end}
-          step={stepSize}
-          onInput={(e) => {
-            dispatch(
-              ViewActionCreators.SetCurrentTimestep(
-                (e.target as HTMLInputElement).value
-              )
-            );
-          }}
-        />
-        <Ticks values={ticks}>
-          {({ ticks }) => (
-            <div className="slider-ticks" style={{ marginTop: "-36px" }}>
-              {ticks.map((tick) => {
-                const position = (100 * (tick.value - start)) / spread;
+      <Track />
+      <Ticks values={ticks}>
+        {({ ticks }) => (
+          <TicksWrapper>
+            {ticks.map((tick) => {
+              const position = (100 * (tick.value - start)) / spread;
 
-                return (
-                  <Tick
-                    key={tick.id}
-                    format={formatTicks}
-                    tick={tick}
-                    count={ticks.length}
-                    position={position}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </Ticks>
-      </div>
+              return (
+                <Tick
+                  key={tick.id}
+                  format={formatTicks}
+                  tick={tick}
+                  count={ticks.length}
+                  position={position}
+                />
+              );
+            })}
+          </TicksWrapper>
+        )}
+      </Ticks>
+      <Input
+        type="range"
+        value={currentTimestepValue}
+        min={start}
+        max={end}
+        step={stepSize}
+        onInput={(e) => {
+          dispatch(
+            ViewActionCreators.SetCurrentTimestep(
+              (e.target as HTMLInputElement).value
+            )
+          );
+        }}
+      />
     </Wrapper>
   );
 };

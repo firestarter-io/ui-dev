@@ -9,76 +9,7 @@
  */
 
 import * as React from "react";
-import {
-  SliderItem,
-  GetHandleProps,
-  GetTrackProps,
-} from "react-compound-slider";
-
-interface HandleProps {
-  domain: number[];
-  handle: SliderItem;
-  getHandleProps: GetHandleProps;
-}
-
-/**
- * Custom handle component for react compound slider
- */
-export const Handle: React.FC<HandleProps> = ({
-  domain: [min, max],
-  handle: { id, value, percent },
-  getHandleProps,
-}: HandleProps) => (
-  <div
-    role="slider"
-    aria-valuemin={min}
-    aria-valuemax={max}
-    aria-valuenow={value}
-    style={{
-      left: `${percent}%`,
-      position: "absolute",
-      marginLeft: "-11px",
-      marginTop: "-8px",
-      zIndex: 2,
-      width: 15,
-      height: 40,
-      cursor: "pointer",
-      borderRadius: "5px",
-      boxShadow: "1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
-      backgroundColor: "#34568f",
-    }}
-    {...getHandleProps(id)}
-  />
-);
-
-interface TrackProps {
-  source: SliderItem;
-  target: SliderItem;
-  getTrackProps: GetTrackProps;
-}
-
-/**
- * Custom track component for react compound slider
- */
-export const Track: React.FC<TrackProps> = ({
-  source,
-  target,
-  getTrackProps,
-}: TrackProps) => (
-  <div
-    style={{
-      position: "absolute",
-      height: 14,
-      zIndex: 1,
-      // backgroundColor: "#7aa0c4",
-      borderRadius: 7,
-      cursor: "pointer",
-      left: `${source.percent}%`,
-      width: `${target.percent - source.percent}%`,
-    }}
-    {...getTrackProps()}
-  />
-);
+import { SliderItem } from "react-compound-slider";
 
 interface TickProps {
   tick: SliderItem;
@@ -96,7 +27,6 @@ export const Tick: React.FC<TickProps> = ({
   position,
   format,
 }: TickProps) => {
-  console.log(position);
   return (
     <div>
       <div
@@ -107,12 +37,13 @@ export const Tick: React.FC<TickProps> = ({
           height: 10,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           left: `${position}%`,
+          pointerEvents: "none",
         }}
       />
       <div
         style={{
           position: "absolute",
-          marginTop: 30,
+          marginTop: 35,
           fontSize: 10,
           textAlign: "center",
           marginLeft: `${-(100 / count) / 2}%`,

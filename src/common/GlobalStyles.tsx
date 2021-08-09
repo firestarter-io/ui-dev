@@ -16,14 +16,14 @@ const GlobalStyles = createGlobalStyle`
 
   $linkcolor: #0078A8;
 
-  /* html {
+  html {
     box-sizing: border-box;
     overflow-x: hidden;
   }
 
   *, *:before, *:after {
     box-sizing: inherit;
-  } */
+  }
 
   html, body, #root {
     width: 100%;
