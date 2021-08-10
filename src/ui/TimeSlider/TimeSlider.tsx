@@ -12,7 +12,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Ticks } from "react-compound-slider";
-import * as lodash from "lodash";
 import { ApplicationState } from "store";
 import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
 import { Tick } from "./components";
@@ -34,7 +33,7 @@ const Wrapper = styled.div`
   padding: 15px;
   margin-bottom: 2px;
   position: relative;
-  height: 120px;
+  height: 90px;
 `;
 
 const Track = styled.div`
@@ -54,7 +53,7 @@ const Track = styled.div`
 const TicksWrapper = styled.div`
   height: 10px;
   width: calc(100% - ${PADDING});
-  margin-top: -56px;
+  margin-top: -26px;
   position: relative;
   z-index: 30;
 `;
@@ -71,15 +70,14 @@ const TimeSlider: React.FC = () => {
   );
   const dispatch = useDispatch();
 
-  const start = lodash.first(campaign.timesteps).timestamp;
-  const end = lodash.last(campaign.timesteps).timestamp;
+  const start = 0;
+  const end = campaign.timesteps.length - 1;
 
   const domain = [start, end];
 
   const spread = end - start;
 
-  const stepSize =
-    campaign.timesteps[1].timestamp - campaign.timesteps[0].timestamp;
+  const stepSize = 1;
   const noOfSteps = campaign.timesteps.length;
 
   const ticks = Array.from({ length: noOfSteps }).map(
@@ -87,7 +85,8 @@ const TimeSlider: React.FC = () => {
   );
 
   const formatTicks = (d: number) => {
-    const date = new Date(d);
+    const timestep = campaign.timesteps[d].timestamp;
+    const date = new Date(timestep);
     return date.getHours().toString();
   };
 
