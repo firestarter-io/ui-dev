@@ -22,6 +22,7 @@ import { ActionCreators as CampaignActionCreators } from "common/store/campaign/
 import { ApplicationState } from "store";
 import LayersControl from "./LayersControl";
 import { getEsriToken } from "../../utils/esri";
+import { CampaignCells } from "./CampaignCells";
 
 const MapContainer = styled(UnstyledMapContainer)`
   height: 100%;
@@ -48,6 +49,7 @@ interface MapProps {
  */
 const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const [token, setToken] = useState("");
+  const campaign = useSelector((state: ApplicationState) => state.campaign);
   const extents = useSelector(
     (state: ApplicationState) => state.campaign?.extents
   );
@@ -66,6 +68,8 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
       id="mapId"
       zoom={12}
       whenCreated={(map) => {
+        // @ts-ignore
+        window.map = map;
         setMap(map);
       }}
       center={{ lat: 34.6, lng: -118.4 }}
@@ -83,6 +87,8 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
             />
           );
         })}
+
+      {campaign && <CampaignCells />}
 
       <LayersControl token={token} />
 

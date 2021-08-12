@@ -12,7 +12,7 @@ import { Matrix } from "mathjs";
 import dummycampaign from "common/constants/dummycampaign";
 import { Action, ActionTypes } from "./actions";
 
-interface Timestep {
+export interface Timestep {
   /**
    * Index of the timestep in a campaign's timestep array
    */
@@ -44,7 +44,7 @@ interface Timestep {
     height: number;
     origin: L.Point;
     averageDistance: number;
-    burnMatrix: Matrix;
+    burnMatrix: any;
   }[];
 }
 

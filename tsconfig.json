@@ -14,7 +14,8 @@
     "paths": {
       "common/*": ["common/*"],
       "map/*": ["map/*"],
-      "ui/*": ["ui/*"]
+      "ui/*": ["ui/*"],
+      "utils/*": ["utils/*"]
     }
   }
 }
