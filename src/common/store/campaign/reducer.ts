@@ -8,8 +8,8 @@
  *
  */
 
-import { Matrix } from "mathjs";
 import dummycampaign from "common/constants/dummycampaign";
+import { Matrix } from "mathjs";
 import { Action, ActionTypes } from "./actions";
 
 export interface Timestep {
@@ -44,7 +44,7 @@ export interface Timestep {
     height: number;
     origin: L.Point;
     averageDistance: number;
-    burnMatrix: any;
+    burnMatrix: Matrix;
   }[];
 }
 

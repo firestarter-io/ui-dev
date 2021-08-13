@@ -31,7 +31,6 @@ export const CampaignCells: React.FC = () => {
   const currentTimestep: Timestep = timesteps[currentTimeStepIndex];
 
   useEffect(() => {
-    console.log(groupRef.current);
     // map.setView(groupRef.current.getBounds().getCenter());
   }, [currentTimeStepIndex]);
 
@@ -48,16 +47,12 @@ export const CampaignCells: React.FC = () => {
         }, true);
 
         const cells = cellValues.map(({ index }) => {
-          console.log(index, origin);
-
           const cellPoint = new L.Point(
             index[1] + origin.x,
             index[0] + origin.y
           );
 
           const cellPosition = map.unproject(cellPoint, SCALE);
-
-          console.log(cellPosition);
 
           return (
             <Cell
