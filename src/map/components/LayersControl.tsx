@@ -9,7 +9,7 @@
  */
 
 import React from "react";
-import { LayersControl as RLLayersControl } from "react-leaflet";
+import { LayersControl as RLLayersControl, TileLayer } from "react-leaflet";
 import { ImageMapLayer, DynamicMapLayer } from "react-esri-leaflet";
 
 interface Props {
@@ -25,27 +25,39 @@ interface Props {
 const LayersControl: React.FC<Props> = ({ token }: Props) => {
   return (
     <RLLayersControl collapsed={false}>
+      <RLLayersControl.BaseLayer name="OSM Hot">
+        <TileLayer url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png" />
+      </RLLayersControl.BaseLayer>
       {token && (
-        <RLLayersControl.BaseLayer name="ESRI Aspect" checked>
-          <ImageMapLayer
-            url="https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer"
-            renderingRule={{ rasterFunction: "Aspect_Map" }}
-            token={token}
-          />
-        </RLLayersControl.BaseLayer>
+        <>
+          <RLLayersControl.BaseLayer name="ESRI Aspect" checked>
+            <ImageMapLayer
+              url="https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer"
+              renderingRule={{ rasterFunction: "Aspect_Map" }}
+              token={token}
+            />
+          </RLLayersControl.BaseLayer>
+          <RLLayersControl.BaseLayer name="ESRI Slope Degrees">
+            <ImageMapLayer
+              url="https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer"
+              renderingRule={{ rasterFunction: "Slope_Degrees_Map" }}
+              token={token}
+            />
+          </RLLayersControl.BaseLayer>
+        </>
       )}
-      {/* Backup in case LANDFIRE goes down again: */}
-      {/* <RLLayersControl.BaseLayer name="USFS Wildfire Probability">
+      <RLLayersControl.BaseLayer name="USFS Wildfire Probability">
         <DynamicMapLayer
           url="https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/ProbabilisticWildfireRisk/MapServer"
           layers={[0]}
           format="png32"
           f="image"
         />
-      </RLLayersControl.BaseLayer> */}
-      <RLLayersControl.BaseLayer name="USFS 13 Fuel Models">
-        <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
       </RLLayersControl.BaseLayer>
+      {/* Backup in case LANDFIRE goes down again: */}
+      {/* <RLLayersControl.BaseLayer name="USFS 13 Fuel Models">
+        <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
+      </RLLayersControl.BaseLayer> */}
       <RLLayersControl.BaseLayer name="LANDFIRE Fuels">
         <DynamicMapLayer
           url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"

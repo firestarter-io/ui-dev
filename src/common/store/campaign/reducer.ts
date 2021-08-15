@@ -8,7 +8,7 @@
  *
  */
 
-import dummycampaign from "common/constants/dummycampaign";
+import * as dummycampaign from "common/constants/dummycampaign.json";
 import { Matrix } from "mathjs";
 import { Action, ActionTypes } from "./actions";
 
@@ -60,7 +60,7 @@ export type Campaign = {
 
 export type State = Campaign | null;
 
-const campaign: Campaign = JSON.parse(dummycampaign);
+const campaign: Campaign = JSON.parse(JSON.stringify(dummycampaign));
 
 const initialState: State = campaign;
 

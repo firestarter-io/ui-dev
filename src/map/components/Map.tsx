@@ -34,6 +34,7 @@ const MapEvents: React.FC = () => {
 
   useMapEvents({
     click: (e) => {
+      console.log(e.latlng);
       dispatch(CampaignActionCreators.RequestNewCampaign({ latlng: e.latlng }));
     },
   });
@@ -65,14 +66,15 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   return (
     <MapContainer
       doubleClickZoom={false}
-      id="mapId"
+      center={{ lat: 34.64926102336086, lng: -118.55522867292167 }}
       zoom={12}
+      id="mapId"
+      preferCanvas
       whenCreated={(map) => {
         // @ts-ignore
         window.map = map;
         setMap(map);
       }}
-      center={{ lat: 34.6, lng: -118.4 }}
     >
       <MapEvents />
 
