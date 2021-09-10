@@ -25,12 +25,15 @@ interface Props {
 const LayersControl: React.FC<Props> = ({ token }: Props) => {
   return (
     <RLLayersControl collapsed={false}>
+      <RLLayersControl.BaseLayer name="Empty" checked>
+        <TileLayer url="" />
+      </RLLayersControl.BaseLayer>
       <RLLayersControl.BaseLayer name="OSM Hot">
         <TileLayer url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png" />
       </RLLayersControl.BaseLayer>
       {token && (
         <>
-          <RLLayersControl.BaseLayer name="ESRI Aspect" checked>
+          <RLLayersControl.BaseLayer name="ESRI Aspect">
             <ImageMapLayer
               url="https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer"
               renderingRule={{ rasterFunction: "Aspect_Map" }}
