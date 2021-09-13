@@ -13,6 +13,7 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import App from "./common/App";
 import { store } from "./store";
+import "leaflet/dist/leaflet.css";
 import "esri-leaflet";
 import "esri-leaflet-geocoder";
 import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
