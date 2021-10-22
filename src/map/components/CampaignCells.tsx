@@ -82,7 +82,7 @@ export const CampaignCells: React.FC = () => {
             return value;
           }, true);
 
-          const cells = cellValues.map(({ index }) => {
+          const cells = cellValues.map(({ index, value }) => {
             const cellPoint = new L.Point(
               index[1] + origin.x,
               index[0] + origin.y
@@ -95,7 +95,8 @@ export const CampaignCells: React.FC = () => {
                 key={JSON.stringify(cellPosition)}
                 center={cellPosition}
                 size={averageDistance}
-                fillColor="blue"
+                fillColor={value === 1001 ? "green" : "#3388ff"}
+                color={value === 1001 ? "green" : "#3388ff"}
               />
             );
           });
