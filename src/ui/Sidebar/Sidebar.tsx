@@ -88,6 +88,9 @@ class Sidebar extends React.Component<Props> {
       topControl.classList.add(`rehomed-top-${position}`);
       bottomControl.classList.add(`rehomed-bottom-${position}`);
 
+      topControl.classList.remove(`leaflet-${position}`);
+      bottomControl.classList.remove(`leaflet-${position}`);
+
       // Exception: Attribution control should not ever be rehomed (in my opinion):
       const attributionControl = document.querySelector(
         `${selector} .leaflet-control-attribution`

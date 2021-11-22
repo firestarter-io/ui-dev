@@ -300,6 +300,8 @@ $screen-large: 1200px;
 /* Rehomed controls css, if props.rehomeControls is true */
 .rehomed-top-left,
 .rehomed-bottom-left {
+  padding-left: 10px;
+
   .collapsed & {
     left: 40px;
   }
