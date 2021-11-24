@@ -11,6 +11,7 @@
 import React, { useState } from "react";
 import { FiChevronLeft, FiHome, FiLayers, FiSettings } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
+import { GiMagnifyingGlass } from "react-icons/gi";
 import { useDispatch } from "react-redux";
 import { ActionCreators } from "common/store/server/actions";
 import Sidebar from "./Sidebar";
@@ -62,6 +63,10 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
 
       <Tab id="layers" header="Custom Layer Types" icon={<FiLayers />}>
         <p>Custom layers tab</p>
+      </Tab>
+
+      <Tab id="analysis" header="Analysis" icon={<GiMagnifyingGlass />}>
+        <p>Groundcover Analysis</p>
       </Tab>
 
       <Tab

@@ -23,6 +23,7 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@react-leaflet/core": "^1.1.1",
     "@types/esri-leaflet": "^2.1.9",
     "@types/react-redux": "^7.1.18",
     "@types/redux-saga": "^0.10.5",
