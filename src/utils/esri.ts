@@ -80,9 +80,8 @@ interface EsriRequestParams {
 export class EsriImageRequest {
   _options: Omit<ImageRequestOptions, "url">;
   _url: string;
-  // Allow any because legend JSON files are not easy to type
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  _layerJSON: any;
+  _layerJSON: object;
+  _legendJSON: Array<{ rgbvalue: object; label?: string } & object>;
 
   constructor(options: ImageRequestOptions) {
     const { url, ...rest } = options;
@@ -223,7 +222,9 @@ export class EsriImageRequest {
       .then((res) => res.json())
       .then((data) => {
         const layerId = this._options.sublayer || "0";
-        layerJSON = data.layers.find((layer) => layer.layerId === layerId);
+        layerJSON = data.layers.find(
+          (layer) => layer.layerId.toString() === layerId.toString()
+        );
       });
 
     // Transform legend array images into rgbValues
@@ -235,7 +236,6 @@ export class EsriImageRequest {
       rgbValues = symbolImages.map((image: CanvasImageSource) => {
         ctx.drawImage(image, 0, 0);
         const [R, G, B, A] = ctx.getImageData(10, 10, 1, 1).data;
-        console.log({ R, G, B, A });
         return { R, G, B, A };
       });
       return rgbValues;
@@ -246,6 +246,8 @@ export class EsriImageRequest {
       rgbvalue: rgbValues[ind],
     }));
 
+    this._legendJSON = legend;
+
     return legend;
   }
 
@@ -253,40 +255,4 @@ export class EsriImageRequest {
    * Many methods adapted from L.esri.RasterLayer:
    * https://github.com/Esri/esri-leaflet/blob/5569b703ed9ab2aeb83d57cb55cd1bc940fea38f/src/Layers/RasterLayer.js
    */
-}
-
-/**
- * Function to compare whether two numbers are the same, returns true if the difference is less than or equal to the defined tolerance
- * @param value1 | First value
- * @param value2 | Second value
- * @param tolerance | Tolerance under which two numbers should be considered the same
- */
-export function compareWithTolerance(
-  value1: number,
-  value2: number,
-  tolerance: number
-): boolean {
-  return Math.abs(value1 - value2) <= Math.abs(tolerance);
-}
-
-/**
- * Compares two objects of the pattern [key]: number to see if their values match within a given tolerance
- * @param obj1 | First object to compare
- * @param obj2 | Second object to compare
- * @param tolerance | Tolerance for comparing values
- */
-export function compareObjectWithTolerance(
-  obj1: object,
-  obj2: object,
-  tolerance: number
-): boolean {
-  const sames = [];
-  Object.keys(obj1).forEach((e) => {
-    if (compareWithTolerance(obj1[e], obj2[e], tolerance)) {
-      sames.push(true);
-    } else {
-      sames.push(false);
-    }
-  });
-  return !sames.some((c) => !c);
 }

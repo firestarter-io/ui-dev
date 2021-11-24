@@ -72,7 +72,7 @@ const LayersControl: React.FC<Props> = ({ token }: Props) => {
         >
           <DynamicMapLayer
             url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
-            layers={[21]}
+            layers={[19]}
             format="png32"
             f="image"
           />

@@ -13,9 +13,18 @@ import { FiChevronLeft, FiHome, FiLayers, FiSettings } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
 import { GiMagnifyingGlass } from "react-icons/gi";
 import { useDispatch } from "react-redux";
-import { ActionCreators } from "common/store/server/actions";
+import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
+import { ActionCreators as ServerActionCreators } from "common/store/server/actions";
 import Sidebar from "./Sidebar";
 import Tab from "./Tab";
+
+export enum NavTabs {
+  HOME = "home",
+  LAYERS = "layers",
+  ANALYZE = "analyze",
+  CLEAR = "clear",
+  SETTINGS = "settings",
+}
 
 interface Props {
   map: L.Map;
@@ -25,15 +34,17 @@ interface Props {
  * Left Sidebar UI component
  */
 const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
-  const [openTab, setOpenTab] = useState<string | false>(false);
+  const [openTab, setOpenTab] = useState<NavTabs | undefined>();
   const dispatch = useDispatch();
 
   const onClose = () => {
-    setOpenTab(false);
+    setOpenTab(undefined);
+    dispatch(ViewActionCreators.SetCurrentNavTab(undefined));
   };
 
-  const onOpen = (id) => {
+  const onOpen = (id: NavTabs) => {
     setOpenTab(id);
+    dispatch(ViewActionCreators.SetCurrentNavTab(id));
   };
 
   // const setTab = (id) => {
@@ -52,7 +63,13 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
       panMapOnChange
       rehomeControls
     >
-      <Tab id="home" header="Home" icon={<FiHome />} onClose={onClose} active>
+      <Tab
+        id={NavTabs.HOME}
+        header="Home"
+        icon={<FiHome />}
+        onClose={onClose}
+        active
+      >
         <p>Welcome to the FireStarter develpment UI. </p>
         <p>
           This react-leaflet is designed for quick analysis of the underlying
@@ -61,28 +78,28 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
         <p>Click the map to begin a campaign at that point.</p>
       </Tab>
 
-      <Tab id="layers" header="Custom Layer Types" icon={<FiLayers />}>
+      <Tab id={NavTabs.LAYERS} header="Custom Layer Types" icon={<FiLayers />}>
         <p>Custom layers tab</p>
       </Tab>
 
-      <Tab id="analysis" header="Analysis" icon={<GiMagnifyingGlass />}>
+      <Tab id={NavTabs.ANALYZE} header="Analysis" icon={<GiMagnifyingGlass />}>
         <p>Groundcover Analysis</p>
       </Tab>
 
       <Tab
-        id="clear"
+        id={NavTabs.CLEAR}
         header="Clear"
         icon={<GrPowerReset />}
         anchor="bottom"
         quickClick={() => {
-          dispatch(ActionCreators.SaveMapReference());
+          dispatch(ServerActionCreators.RestartServer());
         }}
       >
         <p>Reset the campaign</p>
       </Tab>
 
       <Tab
-        id="settings"
+        id={NavTabs.SETTINGS}
         header="Settings"
         icon={<FiSettings />}
         anchor="bottom"

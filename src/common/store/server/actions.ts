@@ -18,7 +18,7 @@ export enum ActionTypes {
 }
 
 export const ActionCreators = {
-  SaveMapReference: createAction(ActionTypes.RESTART_SERVER)(),
+  RestartServer: createAction(ActionTypes.RESTART_SERVER)(),
 };
 
 export type Action = ActionType<typeof ActionCreators>;

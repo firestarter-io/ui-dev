@@ -8,6 +8,7 @@
  *
  */
 
+import { NavTabs } from "ui/Sidebar";
 import { Action, ActionTypes } from "./actions";
 
 export type State = {
@@ -15,6 +16,10 @@ export type State = {
    * The current timestep of the campaign being viewed
    */
   currentTimestep: string;
+  /**
+   * The current sidetab that is open, if any
+   */
+  currentNavTab?: NavTabs;
 };
 
 const initialState: State = {
@@ -27,6 +32,11 @@ const reducer = (state = initialState, action: Action): State => {
       return {
         ...state,
         currentTimestep: action.payload,
+      };
+    case ActionTypes.SET_CURRENT_NAV_TAB:
+      return {
+        ...state,
+        currentNavTab: action.payload,
       };
     default:
       return state;

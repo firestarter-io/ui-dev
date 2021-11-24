@@ -9,9 +9,10 @@
  */
 
 import React, { MouseEventHandler } from "react";
+import { NavTabs } from ".";
 
 export interface TabProps {
-  id?: string;
+  id?: NavTabs;
   header?: string;
   onClose?: MouseEventHandler<HTMLDivElement>;
   active?: boolean;
