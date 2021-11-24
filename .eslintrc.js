@@ -89,6 +89,7 @@ module.exports = {
     // 	'@typescript-eslint/no-empty-function': [0],
     "no-plusplus": [0],
     "no-console": [0],
+    "lines-between-class-members": [0],
     // 	'no-underscore-dangle': [0],
     // },
     // settings: {

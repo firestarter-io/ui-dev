@@ -11,6 +11,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "downlevelIteration": true,
     "baseUrl": "./src",
     "paths": {
       "common/*": ["common/*"],
