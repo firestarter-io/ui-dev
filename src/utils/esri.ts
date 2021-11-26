@@ -80,8 +80,8 @@ interface EsriRequestParams {
 export class EsriImageRequest {
   _options: Omit<ImageRequestOptions, "url">;
   _url: string;
-  _layerJSON: object;
-  _legendJSON: Array<{ rgbvalue: object; label?: string } & object>;
+  _layerJSON?: object;
+  _legendJSON?: Array<{ rgbvalue: object; label?: string } & object>;
 
   constructor(options: ImageRequestOptions) {
     const { url, ...rest } = options;
@@ -92,7 +92,7 @@ export class EsriImageRequest {
   /**
    * fetch layer JSON and store in instance
    */
-  async _fetchJson(): Promise<void> {
+  async fetchJson(): Promise<void> {
     const response = await fetch(`${this._url}?f=json`);
     const esriJSON = await response.json();
     this._layerJSON = esriJSON;
@@ -208,6 +208,12 @@ export class EsriImageRequest {
   // Allow any because legend JSON files are not easy to type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async generateLegend(): Promise<any> {
+    if (this._legendJSON) {
+      return this._legendJSON;
+    }
+
+    console.log("getting legend");
+
     const legendUrl = `${this._url}/legend?f=pjson`;
     let layerJSON;
     let rgbValues;

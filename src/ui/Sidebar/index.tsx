@@ -84,6 +84,7 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
 
       <Tab id={NavTabs.ANALYZE} header="Analysis" icon={<GiMagnifyingGlass />}>
         <p>Groundcover Analysis</p>
+        <div id="fuel-13-analysis-readout" />
       </Tab>
 
       <Tab

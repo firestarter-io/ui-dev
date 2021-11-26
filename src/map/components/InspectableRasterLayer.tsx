@@ -9,6 +9,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import { useMap } from "react-leaflet";
 import { useSelector } from "react-redux";
 import { ApplicationState } from "store";
@@ -42,6 +43,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   const { children, ...rest } = props;
 
   const [loading, setLoading] = useState(false);
+  const [rgba, setRgba] = useState({ R: 0, G: 0, B: 0, A: 0 });
   const canvasRef = useRef<HTMLCanvasElement>();
 
   const map = useMap();
@@ -53,14 +55,27 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
 
   const layerImageRequest = new EsriImageRequest(rest);
 
-  // @ts-ignore
-  window.layerImageRequest = layerImageRequest;
+  useEffect(() => {
+    console.log("mounting component and calling new EsriImageRequest");
+
+    const createImageRequest = async () => {
+      await layerImageRequest.fetchJson();
+      await layerImageRequest.generateLegend();
+    };
+
+    createImageRequest();
+
+    // @ts-ignore
+    window.layerImageRequest = layerImageRequest;
+  }, []);
 
   /**
    * Function to fetch the esri image and draw it to the canvas
    */
-  const fetchAndApplyImage = () => {
+  const fetchAndApplyImage = React.useCallback(() => {
     if (canvasRef.current && currentNavTab === NavTabs.ANALYZE) {
+      console.log("calling fetchAndApplyImage");
+
       const ctx = canvasRef.current.getContext("2d");
       setLoading(true);
 
@@ -81,15 +96,13 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
             setLoading(false);
           }, 1000);
         });
-
-      layerImageRequest.generateLegend();
     }
-  };
+  }, [map, canvasRef.current, layerImageRequest]);
 
   /**
    * Call function to draw image to canvas on mount and on the following map events:
    */
-  map.on("moveend zoomend resize", fetchAndApplyImage);
+  map.on("moveend", fetchAndApplyImage);
 
   // const rgbsample: HTMLElement = document.querySelector(".color-sample");
   // const rgbmessage: HTMLElement = document.getElementById("code-text");
@@ -100,22 +113,24 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
    * at that position on the canvas, get the pixel value at that pixel, and then look up
    * that pixel in the layer's legend JSON
    */
-  const getPixel = (e: L.LeafletMouseEvent) => {
-    const { x, y } = map.latLngToContainerPoint(e.latlng);
-    if (!loading && canvasRef.current && currentNavTab === NavTabs.ANALYZE) {
-      const ctx = canvasRef.current.getContext("2d");
+  const getPixel = React.useCallback(
+    (e: L.LeafletMouseEvent) => {
+      console.log(layerImageRequest._legendJSON);
+      if (!loading && canvasRef.current && currentNavTab === NavTabs.ANALYZE) {
+        const { x, y } = map.latLngToContainerPoint(e.latlng);
+        const ctx = canvasRef.current.getContext("2d");
+        const pixelData = ctx.getImageData(x, y, 1, 1);
+        const [R, G, B, A] = pixelData.data;
+        const rgbvalue = { R, G, B, A };
+        setRgba(rgbvalue);
 
-      const pixelData = ctx.getImageData(x, y, 1, 1);
-      const [R, G, B, A] = pixelData.data;
-      // rgbsample.style.backgroundColor = `rgba(${R}, ${G}, ${B}, ${A})`;
-      // rgbmessage.innerText = `R: ${R}, G: ${G}, B: ${B}`;
-      const rgbvalue = { R, G, B, A };
-      const value = layerImageRequest._legendJSON.find((symbol) =>
-        compareObjectWithTolerance(symbol.rgbvalue, rgbvalue, 1)
-      );
-      // valuestring.innerHTML = `Value: ${value?.label || ""}`;
-    }
-  };
+        const value = layerImageRequest._legendJSON.find((symbol) =>
+          compareObjectWithTolerance(symbol.rgbvalue, rgbvalue, 1)
+        );
+      }
+    },
+    [map, canvasRef.current, currentNavTab, layerImageRequest._legendJSON]
+  );
 
   /**
    * When mouse moves on map, run the getpixel function
@@ -144,6 +159,15 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
           display: currentNavTab === NavTabs.ANALYZE ? "block" : "none",
         }}
       />
+      {currentNavTab === NavTabs.ANALYZE &&
+        ReactDOM.createPortal(
+          <div>
+            This is a portal item
+            <br />
+            {JSON.stringify(rgba)}
+          </div>,
+          document.getElementById("fuel-13-analysis-readout")
+        )}
       {loading && currentNavTab === NavTabs.ANALYZE && (
         <LoadingSpinner
           id="loading-spinner"
