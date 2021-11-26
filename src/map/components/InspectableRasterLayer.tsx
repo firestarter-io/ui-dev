@@ -55,20 +55,6 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
 
   const layerImageRequest = new EsriImageRequest(rest);
 
-  useEffect(() => {
-    console.log("mounting component and calling new EsriImageRequest");
-
-    const createImageRequest = async () => {
-      await layerImageRequest.fetchJson();
-      await layerImageRequest.generateLegend();
-    };
-
-    createImageRequest();
-
-    // @ts-ignore
-    window.layerImageRequest = layerImageRequest;
-  }, []);
-
   /**
    * Function to fetch the esri image and draw it to the canvas
    */
@@ -100,15 +86,6 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   }, [map, canvasRef.current, layerImageRequest]);
 
   /**
-   * Call function to draw image to canvas on mount and on the following map events:
-   */
-  map.on("moveend", fetchAndApplyImage);
-
-  // const rgbsample: HTMLElement = document.querySelector(".color-sample");
-  // const rgbmessage: HTMLElement = document.getElementById("code-text");
-  // const valuestring: HTMLElement = document.getElementById("value");
-
-  /**
    * Function to get the latlng of the mouse position, cross reference it against the pixel
    * at that position on the canvas, get the pixel value at that pixel, and then look up
    * that pixel in the layer's legend JSON
@@ -132,10 +109,29 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
     [map, canvasRef.current, currentNavTab, layerImageRequest._legendJSON]
   );
 
-  /**
-   * When mouse moves on map, run the getpixel function
-   */
-  map.on("mousemove", getPixel);
+  useEffect(() => {
+    console.log("mounting component and calling new EsriImageRequest");
+
+    const createImageRequest = async () => {
+      await layerImageRequest.fetchJson();
+      await layerImageRequest.generateLegend();
+
+      /**
+       * Call function to draw image to canvas on mount and on the following map events:
+       */
+      map.on("moveend", fetchAndApplyImage);
+
+      /**
+       * When mouse moves on map, run the getpixel function
+       */
+      map.on("mousemove", getPixel);
+    };
+
+    createImageRequest();
+
+    // @ts-ignore
+    window.layerImageRequest = layerImageRequest;
+  }, []);
 
   /**
    * Cleanup effect so that when layer dismounts, map handlers are removed
