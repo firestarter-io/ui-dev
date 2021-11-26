@@ -71,6 +71,7 @@ module.exports = {
     // 	'react/no-unused-prop-types': [0],
     // 	'react/no-array-index-key': [0],
     "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": [0],
     // 	'react/default-props-match-prop-types': [0],
     "react/no-array-index-key": [0],
     "no-use-before-define": "off",

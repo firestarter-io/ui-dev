@@ -11,7 +11,6 @@
 import React from "react";
 import { LayersControl as RLLayersControl, TileLayer } from "react-leaflet";
 import { ImageMapLayer, DynamicMapLayer } from "react-esri-leaflet";
-import { InspectableRasterLayer } from "./InspectableRasterLayer";
 
 interface Props {
   /**
@@ -63,20 +62,12 @@ const LayersControl: React.FC<Props> = ({ token }: Props) => {
         <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
       </RLLayersControl.BaseLayer> */}
       <RLLayersControl.BaseLayer name="LANDFIRE Fuels">
-        <InspectableRasterLayer
+        <DynamicMapLayer
           url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
-          sublayer="19"
+          layers={[19]}
           format="png32"
           f="image"
-          exportType="export"
-        >
-          <DynamicMapLayer
-            url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
-            layers={[19]}
-            format="png32"
-            f="image"
-          />
-        </InspectableRasterLayer>
+        />
       </RLLayersControl.BaseLayer>
     </RLLayersControl>
   );

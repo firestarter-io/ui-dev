@@ -18,9 +18,24 @@ import { NavTabs } from "ui/Sidebar";
 import { EsriImageRequest, ImageRequestOptions } from "utils/esri";
 import { compareObjectWithTolerance } from "utils/math";
 
+export enum AnalysisSectionIds {
+  FUEL13 = "fuel-13-analysis-readout",
+}
+
 interface Props extends ImageRequestOptions {
+  /**
+   * Display name of layer to show in the analysis side tab
+   */
+  name: string;
+  /**
+   * Id of DOM node to attach results to
+   */
+  id: AnalysisSectionIds;
+  /**
+   * Children of layer, if any
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: React.ReactElement<any, any>;
+  children?: React.ReactElement<any, any>;
 }
 
 const AnalysisCanvas = styled.canvas`
@@ -40,7 +55,7 @@ const LoadingSpinner = styled.img`
 `;
 
 export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
-  const { children, ...rest } = props;
+  const { children, name, id, ...rest } = props;
 
   const [loading, setLoading] = useState(false);
   const [rgba, setRgba] = useState({ R: 0, G: 0, B: 0, A: 0 });
@@ -52,6 +67,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   const currentNavTab = useSelector(
     (state: ApplicationState) => state.view.currentNavTab
   );
+  const analyzeModeActive = currentNavTab === NavTabs.ANALYZE;
 
   const layerImageRequest = new EsriImageRequest(rest);
 
@@ -59,7 +75,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
    * Function to fetch the esri image and draw it to the canvas
    */
   const fetchAndApplyImage = React.useCallback(() => {
-    if (canvasRef.current && currentNavTab === NavTabs.ANALYZE) {
+    if (canvasRef.current && analyzeModeActive) {
       console.log("calling fetchAndApplyImage");
 
       const ctx = canvasRef.current.getContext("2d");
@@ -92,8 +108,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
    */
   const getPixel = React.useCallback(
     (e: L.LeafletMouseEvent) => {
-      console.log(layerImageRequest._legendJSON);
-      if (!loading && canvasRef.current && currentNavTab === NavTabs.ANALYZE) {
+      if (!loading && canvasRef.current && analyzeModeActive) {
         const { x, y } = map.latLngToContainerPoint(e.latlng);
         const ctx = canvasRef.current.getContext("2d");
         const pixelData = ctx.getImageData(x, y, 1, 1);
@@ -106,15 +121,18 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
         );
       }
     },
-    [map, canvasRef.current, currentNavTab, layerImageRequest._legendJSON]
+    [map, canvasRef.current, analyzeModeActive, layerImageRequest._legendJSON]
   );
 
   useEffect(() => {
-    console.log("mounting component and calling new EsriImageRequest");
-
     const createImageRequest = async () => {
+      /**
+       * Fetch the JSON and the legend of the layer ahead of time, and once ready,
+       * fetch the image and apply it to the canvas
+       */
       await layerImageRequest.fetchJson();
       await layerImageRequest.generateLegend();
+      fetchAndApplyImage();
 
       /**
        * Call function to draw image to canvas on mount and on the following map events:
@@ -127,11 +145,13 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
       map.on("mousemove", getPixel);
     };
 
-    createImageRequest();
-
-    // @ts-ignore
-    window.layerImageRequest = layerImageRequest;
-  }, []);
+    /**
+     * Only create the image request and add the handlers if we are in analyze mode
+     */
+    if (analyzeModeActive) {
+      createImageRequest();
+    }
+  }, [analyzeModeActive]);
 
   /**
    * Cleanup effect so that when layer dismounts, map handlers are removed
@@ -158,11 +178,18 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
       {currentNavTab === NavTabs.ANALYZE &&
         ReactDOM.createPortal(
           <div>
-            This is a portal item
+            {name}
             <br />
-            {JSON.stringify(rgba)}
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: `rgba(${rgba.R}, ${rgba.G}, ${rgba.B}, ${rgba.A})`,
+              }}
+            />
+            <code>{`R: ${rgba.R}, G: ${rgba.G}, B: ${rgba.B}, A: ${rgba.A}`}</code>
           </div>,
-          document.getElementById("fuel-13-analysis-readout")
+          document.getElementById(id)
         )}
       {loading && currentNavTab === NavTabs.ANALYZE && (
         <LoadingSpinner

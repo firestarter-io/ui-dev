@@ -20,9 +20,14 @@ import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearc
 import { useDispatch, useSelector } from "react-redux";
 import { ActionCreators as CampaignActionCreators } from "common/store/campaign/actions";
 import { ApplicationState } from "store";
+import { NavTabs } from "ui/Sidebar";
 import LayersControl from "./LayersControl";
 import { getEsriToken } from "../../utils/esri";
 import { CampaignCells } from "./CampaignCells";
+import {
+  AnalysisSectionIds,
+  InspectableRasterLayer,
+} from "./InspectableRasterLayer";
 
 const MapContainer = styled(UnstyledMapContainer)`
   height: 100%;
@@ -54,6 +59,10 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const extents = useSelector(
     (state: ApplicationState) => state.campaign?.extents
   );
+  const currentNavTab = useSelector(
+    (state: ApplicationState) => state.view.currentNavTab
+  );
+  const analyzeModeActive = currentNavTab === NavTabs.ANALYZE;
 
   useEffect(() => {
     getEsriToken("JIFxHtUs7w96394I", "8068058a0804412eafe2ddbd6f78e961").then(
@@ -93,6 +102,18 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
       {campaign && <CampaignCells />}
 
       <LayersControl token={token} />
+
+      {analyzeModeActive && (
+        <InspectableRasterLayer
+          name="Anderson's 13 Fuel Models"
+          id={AnalysisSectionIds.FUEL13}
+          url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
+          sublayer="19"
+          format="png32"
+          f="image"
+          exportType="export"
+        />
+      )}
 
       {token && (
         <EsriLeafletGeoSearch
