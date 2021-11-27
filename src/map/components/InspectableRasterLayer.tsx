@@ -119,7 +119,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
         setRgba(rgbvalue);
 
         const value = layerImageRequest._legendJSON.find((symbol) =>
-          compareObjectWithTolerance(symbol.rgbvalue, rgbvalue, 1)
+          compareObjectWithTolerance(symbol.rgbvalue, rgbvalue, 10)
         );
         setValue(value);
       }
