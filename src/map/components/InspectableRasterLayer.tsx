@@ -15,8 +15,8 @@ import { useSelector } from "react-redux";
 import { ApplicationState } from "store";
 import styled from "styled-components";
 import { NavTabs } from "ui/Sidebar";
-import { EsriImageRequest, ImageRequestOptions } from "utils/esri";
-import { compareObjectWithTolerance } from "utils/math";
+import { EsriImageRequest, ImageRequestOptions, LegendEntry } from "utils/esri";
+import { compareObjectWithTolerance, padWithZeroes } from "utils/math";
 
 export enum AnalysisSectionIds {
   FUEL13 = "fuel-13-analysis-readout",
@@ -59,6 +59,8 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
 
   const [loading, setLoading] = useState(false);
   const [rgba, setRgba] = useState({ R: 0, G: 0, B: 0, A: 0 });
+  const [value, setValue] = useState<LegendEntry>();
+
   const canvasRef = useRef<HTMLCanvasElement>();
 
   const map = useMap();
@@ -119,6 +121,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
         const value = layerImageRequest._legendJSON.find((symbol) =>
           compareObjectWithTolerance(symbol.rgbvalue, rgbvalue, 1)
         );
+        setValue(value);
       }
     },
     [map, canvasRef.current, analyzeModeActive, layerImageRequest._legendJSON]
@@ -187,7 +190,12 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
                 backgroundColor: `rgba(${rgba.R}, ${rgba.G}, ${rgba.B}, ${rgba.A})`,
               }}
             />
-            <code>{`R: ${rgba.R}, G: ${rgba.G}, B: ${rgba.B}, A: ${rgba.A}`}</code>
+            <code>
+              R: {padWithZeroes(rgba.R, 3)}, G: {padWithZeroes(rgba.G, 3)}, B:
+              {padWithZeroes(rgba.B, 3)}, A: {padWithZeroes(rgba.A, 3)}
+            </code>
+            <br />
+            <code>Label: {value?.label ?? "Unknown"}</code>
           </div>,
           document.getElementById(id)
         )}

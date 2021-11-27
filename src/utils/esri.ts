@@ -74,6 +74,8 @@ interface EsriRequestParams {
   layers?: string;
 }
 
+export type LegendEntry = { rgbvalue: object; label?: string } & object;
+
 /**
  * Util class for creating esri image requests
  */
@@ -81,7 +83,7 @@ export class EsriImageRequest {
   _options: Omit<ImageRequestOptions, "url">;
   _url: string;
   _layerJSON?: object;
-  _legendJSON?: Array<{ rgbvalue: object; label?: string } & object>;
+  _legendJSON?: Array<LegendEntry>;
 
   constructor(options: ImageRequestOptions) {
     const { url, ...rest } = options;
@@ -212,8 +214,6 @@ export class EsriImageRequest {
       return this._legendJSON;
     }
 
-    console.log("getting legend");
-
     const legendUrl = `${this._url}/legend?f=pjson`;
     let layerJSON;
     let rgbValues;
@@ -253,6 +253,8 @@ export class EsriImageRequest {
     }));
 
     this._legendJSON = legend;
+
+    console.log(legend);
 
     return legend;
   }

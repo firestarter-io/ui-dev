@@ -58,4 +58,22 @@ export function compareObjectWithTolerance(
   return !sames.some((c) => !c);
 }
 
+/**
+ * Function to take in a number, and pad it with leading zeroes, such that the results
+ * in a given number of characters long
+ * @param number The number to pad
+ * @param zeros The number of characters to pad to
+ * @example
+ * padWithZeroes(22, 4); // '0022'
+ * padWithZeroes(500, 6); // '000500'
+ * padWithZeroes(34.5, 4); // '034.5'
+ * padWithZeroes(123, 2); // '123'
+ */
+export const padWithZeroes = (number: number, characters: number): string => {
+  if (number.toString().length >= characters) {
+    return number.toString();
+  }
+  return ("0".repeat(characters) + number).slice(-characters);
+};
+
 export default math;
