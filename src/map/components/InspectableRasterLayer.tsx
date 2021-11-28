@@ -18,7 +18,7 @@ import { NavTabs } from "ui/Sidebar";
 import { EsriImageRequest, ImageRequestOptions, LegendEntry } from "utils/esri";
 import { compareObjectWithTolerance, padWithZeroes } from "utils/math";
 
-export enum AnalysisSectionIds {
+export enum InspectSectionIds {
   FUEL13 = "fuel-13-analysis-readout",
 }
 
@@ -27,15 +27,15 @@ interface ReadoutProps {
    * The id of the div, which must be one of a predefined set of ids also used by
    * the corresponding InspectableRasterLayer
    */
-  id: AnalysisSectionIds;
+  id: InspectSectionIds;
 }
 
 /**
- * Empty div component for receiving analysis readout content from an InspectableRasterLayer.
+ * Empty div component for receiving inspect readout content from an InspectableRasterLayer.
  * InspectableRasterLayer is a descendant of the map, and as such, uses a ReactDOM.createPortal
  * call to quickly communicate changes to the readout, which is not a descendant of the map
  */
-export const AnalysisReadout: React.FC<ReadoutProps> = ({
+export const InspectReadout: React.FC<ReadoutProps> = ({
   id,
 }: ReadoutProps) => {
   return <div id={id} />;
@@ -49,7 +49,7 @@ interface Props extends ImageRequestOptions {
   /**
    * Id of DOM node to attach results to
    */
-  id: AnalysisSectionIds;
+  id: InspectSectionIds;
   /**
    * Children of layer, if any
    */
@@ -57,7 +57,7 @@ interface Props extends ImageRequestOptions {
   children?: React.ReactElement<any, any>;
 }
 
-const AnalysisCanvas = styled.canvas`
+const InspectCanvas = styled.canvas`
   height: 100%;
   width: 100%;
   pointer-events: none;
@@ -74,6 +74,7 @@ const LoadingSpinner = styled.img`
 `;
 
 const ReadoutWrapper = styled.div`
+  margin-top: 10px;
   border: 1px solid lightgray;
   padding: 5px;
 `;
@@ -96,10 +97,10 @@ const ColorSwatch = styled.div`
  * An InspectableRasterLayer is a map component which spoofs a leaflet map layer.  Using utility
  * functions borrowed largely from esri-leaflet and the arcgis api, it calls to retrieve a raster
  * image based on the map's current bounds and zoom.  It writes that image to an invisible canvas.
- * This occurs on certain map events (moveend, zoomend, load), only when the sidetabs analysis tab
+ * This occurs on certain map events (moveend, zoomend, load), only when the sidetabs inspect tab
  * is open.  It then adds event listeners to the map so that a user's mouseover will read the
  * associated pixel under the user's mouse, and interperet the value of the raster image based on
- * the layer's legend values.  It will then display these values in the analyze tab.
+ * the layer's legend values.  It will then display these values in the inspect tab.
  */
 export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   const { children, name, id, ...rest } = props;
@@ -116,7 +117,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   const currentNavTab = useSelector(
     (state: ApplicationState) => state.view.currentNavTab
   );
-  const analyzeModeActive = currentNavTab === NavTabs.ANALYZE;
+  const inspectModeActive = currentNavTab === NavTabs.INSPECT;
 
   const layerImageRequest = new EsriImageRequest(rest);
 
@@ -124,7 +125,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
    * Function to fetch the esri image and draw it to the canvas
    */
   const fetchAndApplyImage = React.useCallback(() => {
-    if (canvasRef.current && analyzeModeActive) {
+    if (canvasRef.current && inspectModeActive) {
       const ctx = canvasRef.current.getContext("2d");
       setLoading(true);
 
@@ -155,7 +156,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
    */
   const getPixel = React.useCallback(
     (e: L.LeafletMouseEvent) => {
-      if (!loading && canvasRef.current && analyzeModeActive) {
+      if (!loading && canvasRef.current && inspectModeActive) {
         const { x, y } = map.latLngToContainerPoint(e.latlng);
         const ctx = canvasRef.current.getContext("2d");
         const pixelData = ctx.getImageData(x, y, 1, 1);
@@ -169,7 +170,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
         setValue(value);
       }
     },
-    [map, canvasRef.current, analyzeModeActive, layerImageRequest._legendJSON]
+    [map, canvasRef.current, inspectModeActive, layerImageRequest._legendJSON]
   );
 
   useEffect(() => {
@@ -196,10 +197,10 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
     /**
      * Only create the image request and add the handlers if we are in analyze mode
      */
-    if (analyzeModeActive) {
+    if (inspectModeActive) {
       createImageRequest();
     }
-  }, [analyzeModeActive]);
+  }, [inspectModeActive]);
 
   /**
    * Cleanup effect so that when layer dismounts, map handlers are removed
@@ -236,18 +237,18 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   return (
     <>
       {children}
-      <AnalysisCanvas
+      <InspectCanvas
         height={height}
         width={width}
         ref={canvasRef}
         id="analysis-canvas"
         style={{
-          display: currentNavTab === NavTabs.ANALYZE ? "block" : "none",
+          display: inspectModeActive ? "block" : "none",
         }}
       />
-      {currentNavTab === NavTabs.ANALYZE &&
+      {inspectModeActive &&
         ReactDOM.createPortal(readout, document.getElementById(id))}
-      {loading && currentNavTab === NavTabs.ANALYZE && (
+      {loading && inspectModeActive && (
         <LoadingSpinner
           id="loading-spinner"
           src="https://cutewallpaper.org/21/loading-gif-transparent-background/Update-throbber-icon-in-Seven-theme-2775725-Drupalorg.gif"

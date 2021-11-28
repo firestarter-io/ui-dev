@@ -25,7 +25,7 @@ import LayersControl from "./LayersControl";
 import { getEsriToken } from "../../utils/esri";
 import { CampaignCells } from "./CampaignCells";
 import {
-  AnalysisSectionIds,
+  InspectSectionIds,
   InspectableRasterLayer,
 } from "./InspectableRasterLayer";
 
@@ -62,7 +62,7 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
   const currentNavTab = useSelector(
     (state: ApplicationState) => state.view.currentNavTab
   );
-  const analyzeModeActive = currentNavTab === NavTabs.ANALYZE;
+  const inspectModeActive = currentNavTab === NavTabs.INSPECT;
 
   useEffect(() => {
     getEsriToken("JIFxHtUs7w96394I", "8068058a0804412eafe2ddbd6f78e961").then(
@@ -103,10 +103,10 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
 
       <LayersControl token={token} />
 
-      {analyzeModeActive && (
+      {inspectModeActive && (
         <InspectableRasterLayer
           name="Anderson's 13 Fuel Models"
-          id={AnalysisSectionIds.FUEL13}
+          id={InspectSectionIds.FUEL13}
           url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
           sublayer="19"
           format="png32"

@@ -11,13 +11,13 @@
 import React, { useState } from "react";
 import { FiChevronLeft, FiHome, FiLayers, FiSettings } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
-import { GiMagnifyingGlass } from "react-icons/gi";
+import { VscInspect } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
 import { ActionCreators as ServerActionCreators } from "common/store/server/actions";
 import {
-  AnalysisReadout,
-  AnalysisSectionIds,
+  InspectReadout,
+  InspectSectionIds,
 } from "map/components/InspectableRasterLayer";
 import Sidebar from "./Sidebar";
 import Tab from "./Tab";
@@ -25,7 +25,7 @@ import Tab from "./Tab";
 export enum NavTabs {
   HOME = "home",
   LAYERS = "layers",
-  ANALYZE = "analyze",
+  INSPECT = "inspect",
   CLEAR = "clear",
   SETTINGS = "settings",
 }
@@ -86,8 +86,8 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
         <p>Custom layers tab</p>
       </Tab>
 
-      <Tab id={NavTabs.ANALYZE} header="Analysis" icon={<GiMagnifyingGlass />}>
-        <AnalysisReadout id={AnalysisSectionIds.FUEL13} />
+      <Tab id={NavTabs.INSPECT} header="Inspect" icon={<VscInspect />}>
+        <InspectReadout id={InspectSectionIds.FUEL13} />
       </Tab>
 
       <Tab
