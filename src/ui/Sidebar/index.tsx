@@ -15,6 +15,10 @@ import { GiMagnifyingGlass } from "react-icons/gi";
 import { useDispatch } from "react-redux";
 import { ActionCreators as ViewActionCreators } from "common/store/view/actions";
 import { ActionCreators as ServerActionCreators } from "common/store/server/actions";
+import {
+  AnalysisReadout,
+  AnalysisSectionIds,
+} from "map/components/InspectableRasterLayer";
 import Sidebar from "./Sidebar";
 import Tab from "./Tab";
 
@@ -83,8 +87,7 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
       </Tab>
 
       <Tab id={NavTabs.ANALYZE} header="Analysis" icon={<GiMagnifyingGlass />}>
-        <p>Groundcover Analysis</p>
-        <div id="fuel-13-analysis-readout" />
+        <AnalysisReadout id={AnalysisSectionIds.FUEL13} />
       </Tab>
 
       <Tab

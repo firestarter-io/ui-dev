@@ -22,6 +22,25 @@ export enum AnalysisSectionIds {
   FUEL13 = "fuel-13-analysis-readout",
 }
 
+interface ReadoutProps {
+  /**
+   * The id of the div, which must be one of a predefined set of ids also used by
+   * the corresponding InspectableRasterLayer
+   */
+  id: AnalysisSectionIds;
+}
+
+/**
+ * Empty div component for receiving analysis readout content from an InspectableRasterLayer.
+ * InspectableRasterLayer is a descendant of the map, and as such, uses a ReactDOM.createPortal
+ * call to quickly communicate changes to the readout, which is not a descendant of the map
+ */
+export const AnalysisReadout: React.FC<ReadoutProps> = ({
+  id,
+}: ReadoutProps) => {
+  return <div id={id} />;
+};
+
 interface Props extends ImageRequestOptions {
   /**
    * Display name of layer to show in the analysis side tab
@@ -54,6 +73,34 @@ const LoadingSpinner = styled.img`
   z-index: 1000000;
 `;
 
+const ReadoutWrapper = styled.div`
+  border: 1px solid lightgray;
+  padding: 5px;
+`;
+
+const ReadoutInner = styled.div`
+  position: relative;
+  padding-left: 30px;
+`;
+
+const ColorSwatch = styled.div`
+  border: 1px solid lightgray;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+`;
+
+/**
+ * An InspectableRasterLayer is a map component which spoofs a leaflet map layer.  Using utility
+ * functions borrowed largely from esri-leaflet and the arcgis api, it calls to retrieve a raster
+ * image based on the map's current bounds and zoom.  It writes that image to an invisible canvas.
+ * This occurs on certain map events (moveend, zoomend, load), only when the sidetabs analysis tab
+ * is open.  It then adds event listeners to the map so that a user's mouseover will read the
+ * associated pixel under the user's mouse, and interperet the value of the raster image based on
+ * the layer's legend values.  It will then display these values in the analyze tab.
+ */
 export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   const { children, name, id, ...rest } = props;
 
@@ -104,7 +151,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
   /**
    * Function to get the latlng of the mouse position, cross reference it against the pixel
    * at that position on the canvas, get the pixel value at that pixel, and then look up
-   * that pixel in the layer's legend JSON
+   * that pixel in the layer's legend JSON.  Values are saved in state variables.
    */
   const getPixel = React.useCallback(
     (e: L.LeafletMouseEvent) => {
@@ -164,6 +211,28 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
     };
   }, []);
 
+  /**
+   * The readout component to be rendered in the UI
+   */
+  const readout = (
+    <ReadoutWrapper>
+      {name}
+      <ReadoutInner>
+        <ColorSwatch
+          style={{
+            backgroundColor: `rgba(${rgba.R}, ${rgba.G}, ${rgba.B}, ${rgba.A})`,
+          }}
+        />
+        <code>
+          R: {padWithZeroes(rgba.R, 3)}, G: {padWithZeroes(rgba.G, 3)}, B:
+          {padWithZeroes(rgba.B, 3)}, A: {padWithZeroes(rgba.A, 3)}
+        </code>
+        <br />
+        <code>Label: {value?.label ?? "Unknown"}</code>
+      </ReadoutInner>
+    </ReadoutWrapper>
+  );
+
   return (
     <>
       {children}
@@ -177,26 +246,7 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
         }}
       />
       {currentNavTab === NavTabs.ANALYZE &&
-        ReactDOM.createPortal(
-          <div>
-            {name}
-            <br />
-            <div
-              style={{
-                height: "20px",
-                width: "20px",
-                backgroundColor: `rgba(${rgba.R}, ${rgba.G}, ${rgba.B}, ${rgba.A})`,
-              }}
-            />
-            <code>
-              R: {padWithZeroes(rgba.R, 3)}, G: {padWithZeroes(rgba.G, 3)}, B:
-              {padWithZeroes(rgba.B, 3)}, A: {padWithZeroes(rgba.A, 3)}
-            </code>
-            <br />
-            <code>Label: {value?.label ?? "Unknown"}</code>
-          </div>,
-          document.getElementById(id)
-        )}
+        ReactDOM.createPortal(readout, document.getElementById(id))}
       {loading && currentNavTab === NavTabs.ANALYZE && (
         <LoadingSpinner
           id="loading-spinner"
