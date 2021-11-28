@@ -78,8 +78,6 @@ export const InspectableRasterLayer: React.FC<Props> = (props: Props) => {
    */
   const fetchAndApplyImage = React.useCallback(() => {
     if (canvasRef.current && analyzeModeActive) {
-      console.log("calling fetchAndApplyImage");
-
       const ctx = canvasRef.current.getContext("2d");
       setLoading(true);
 

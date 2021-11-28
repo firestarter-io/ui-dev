@@ -254,8 +254,6 @@ export class EsriImageRequest {
 
     this._legendJSON = legend;
 
-    console.log(legend);
-
     return legend;
   }
 
