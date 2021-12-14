@@ -62,7 +62,7 @@ const InspectCanvas = styled.canvas`
   height: 100%;
   width: 100%;
   pointer-events: none;
-  border: 3px solid red;
+  opacity: 0;
 `;
 
 const LoadingSpinner = styled.img`
