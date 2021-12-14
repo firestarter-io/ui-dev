@@ -20,6 +20,7 @@ import { compareObjectWithTolerance, padWithZeroes } from "utils/math";
 
 export enum InspectSectionIds {
   FUEL13 = "fuel-13-analysis-readout",
+  FUEL40 = "fuel-40-analysis-readout",
 }
 
 interface ReadoutProps {

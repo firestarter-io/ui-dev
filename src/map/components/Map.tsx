@@ -104,15 +104,26 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
       <LayersControl token={token} />
 
       {inspectModeActive && (
-        <InspectableRasterLayer
-          name="Anderson's 13 Fuel Models"
-          id={InspectSectionIds.FUEL13}
-          url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
-          sublayer="19"
-          format="png32"
-          f="image"
-          exportType="export"
-        />
+        <>
+          <InspectableRasterLayer
+            name="Anderson's 13 Fuel Models"
+            id={InspectSectionIds.FUEL13}
+            url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
+            sublayer="19"
+            format="png32"
+            f="image"
+            exportType="export"
+          />
+          <InspectableRasterLayer
+            name="Scott and Burgan's 40 Fuel Models"
+            id={InspectSectionIds.FUEL13}
+            url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
+            sublayer="10"
+            format="png32"
+            f="image"
+            exportType="export"
+          />
+        </>
       )}
 
       {token && (

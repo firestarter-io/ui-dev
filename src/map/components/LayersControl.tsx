@@ -61,10 +61,18 @@ const LayersControl: React.FC<Props> = ({ token }: Props) => {
       {/* <RLLayersControl.BaseLayer name="USFS 13 Fuel Models">
         <ImageMapLayer url="https://apps.fs.usda.gov/fsgisx01/rest/services/RDW_Landfire/US_13AndersonFBFM_v200/ImageServer" />
       </RLLayersControl.BaseLayer> */}
-      <RLLayersControl.BaseLayer name="LANDFIRE Fuels">
+      <RLLayersControl.BaseLayer name="LANDFIRE 13 Fuels">
         <DynamicMapLayer
           url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
           layers={[19]}
+          format="png32"
+          f="image"
+        />
+      </RLLayersControl.BaseLayer>
+      <RLLayersControl.BaseLayer name="LANDFIRE 40 Fuels">
+        <DynamicMapLayer
+          url="https://landfire.cr.usgs.gov/arcgis/rest/services/Landfire/US_200/MapServer"
+          layers={[10]}
           format="png32"
           f="image"
         />

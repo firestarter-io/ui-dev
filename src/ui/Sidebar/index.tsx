@@ -88,6 +88,7 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
 
       <Tab id={NavTabs.INSPECT} header="Inspect" icon={<VscInspect />}>
         <InspectReadout id={InspectSectionIds.FUEL13} />
+        <InspectReadout id={InspectSectionIds.FUEL40} />
       </Tab>
 
       <Tab
