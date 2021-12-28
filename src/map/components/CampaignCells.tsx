@@ -25,9 +25,11 @@ export const CampaignCells: React.FC = () => {
   const timesteps = useSelector(
     (state: ApplicationState) => state.campaign.timesteps
   );
+
   const currentTimeStepIndex = useSelector(
     (state: ApplicationState) => state.view.currentTimestep
   );
+
   const currentTimestep: Timestep = timesteps[currentTimeStepIndex];
 
   const lastTimeStep = timesteps[timesteps.length - 1];
@@ -35,6 +37,8 @@ export const CampaignCells: React.FC = () => {
   useEffect(() => {
     // map.setView(groupRef.current.getBounds().getCenter());
   }, [currentTimeStepIndex]);
+
+  if (!timesteps.length) return null;
 
   return (
     <>
