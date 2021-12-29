@@ -96,7 +96,7 @@ export const CampaignCells: React.FC = () => {
 
             return (
               <Cell
-                key={JSON.stringify(cellPosition)}
+                key={`${JSON.stringify(cellPosition)}-${value}`}
                 center={cellPosition}
                 size={averageDistance}
                 fillColor={value === 1001 ? "green" : "#3388ff"}
