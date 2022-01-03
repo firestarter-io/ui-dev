@@ -8,7 +8,7 @@
  *
  */
 
-import * as dummycampaign from "common/constants/dummycampaign.json";
+import * as dummycampaign from "common/constants/dummycampaign2.json";
 import { Matrix } from "mathjs";
 import { Action, ActionTypes } from "./actions";
 
