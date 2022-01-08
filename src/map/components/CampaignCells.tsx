@@ -11,7 +11,7 @@
 import React, { useRef, useEffect } from "react";
 import * as L from "leaflet";
 import { useSelector } from "react-redux";
-import { FeatureGroup, useMap } from "react-leaflet";
+import { FeatureGroup, useMap, Polygon } from "react-leaflet";
 import { ApplicationState } from "store";
 import { Timestep } from "common/store/campaign/reducer";
 import math from "utils/math";
@@ -44,6 +44,7 @@ export const CampaignCells: React.FC = () => {
     <>
       <FeatureGroup>
         {lastTimeStep.extents.map((extent) => {
+          if (!extent.burnMatrix) return null;
           const cellValues = [];
           const { averageDistance, origin } = extent;
           const burnMatrix = math.SparseMatrix.fromJSON(extent.burnMatrix);
@@ -77,6 +78,7 @@ export const CampaignCells: React.FC = () => {
       </FeatureGroup>
       <FeatureGroup ref={groupRef}>
         {currentTimestep.extents.map((extent) => {
+          if (!extent.burnMatrix) return null;
           const cellValues = [];
           const { averageDistance, origin } = extent;
           const burnMatrix = math.SparseMatrix.fromJSON(extent.burnMatrix);
@@ -106,6 +108,34 @@ export const CampaignCells: React.FC = () => {
           });
 
           return cells;
+        })}
+      </FeatureGroup>
+
+      <FeatureGroup>
+        {timesteps.map((timestep) =>
+          timestep.extents.map((extent) => {
+            if (!extent?.perimeters?.burning) return null;
+            return (
+              <Polygon
+                key={extent.id}
+                positions={extent.perimeters.burning}
+                fill={false}
+                color="grey"
+              />
+            );
+          })
+        )}
+      </FeatureGroup>
+      <FeatureGroup>
+        {currentTimestep.extents.map((extent) => {
+          if (!extent?.perimeters?.burning) return null;
+          return (
+            <Polygon
+              key={currentTimestep.timestamp}
+              positions={extent.perimeters.burning}
+              fill={false}
+            />
+          );
         })}
       </FeatureGroup>
     </>

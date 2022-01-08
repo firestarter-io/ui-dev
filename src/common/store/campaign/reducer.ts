@@ -37,6 +37,7 @@ export interface Timestep {
    * Array of extents currently active in the timestep
    */
   extents: {
+    id: string;
     latLngBounds: L.LatLngBounds;
     bounds: L.Bounds;
     pixelBounds: L.Bounds;
@@ -44,7 +45,10 @@ export interface Timestep {
     height: number;
     origin: L.Point;
     averageDistance: number;
-    burnMatrix: Matrix;
+    burnMatrix?: Matrix;
+    perimeters?: {
+      burning?: { lat: number; lng: number }[];
+    };
   }[];
 }
 
