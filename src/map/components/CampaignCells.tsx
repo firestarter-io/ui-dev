@@ -12,6 +12,7 @@ import React, { useRef, useEffect } from "react";
 import * as L from "leaflet";
 import { useSelector } from "react-redux";
 import { FeatureGroup, useMap, Polygon } from "react-leaflet";
+import concaveman from "concaveman";
 import { ApplicationState } from "store";
 import { Timestep } from "common/store/campaign/reducer";
 import math from "utils/math";
@@ -68,7 +69,7 @@ export const CampaignCells: React.FC = () => {
                 center={cellPosition}
                 size={averageDistance}
                 fillColor="transparent"
-                color="rgba(0 , 0, 0,0.2)"
+                color="rgba(0, 0, 0, 0.2)"
               />
             );
           });
@@ -84,7 +85,7 @@ export const CampaignCells: React.FC = () => {
           const burnMatrix = math.SparseMatrix.fromJSON(extent.burnMatrix);
 
           burnMatrix.map((value, index) => {
-            cellValues.push({ value, index });
+            if (value === 1001) cellValues.push({ value, index });
             return value;
           }, true);
 
@@ -109,9 +110,39 @@ export const CampaignCells: React.FC = () => {
 
           return cells;
         })}
+        {currentTimestep.extents.map((extent) => {
+          if (!extent.burnMatrix) return null;
+          const cellValues = [];
+          const { origin } = extent;
+          const burnMatrix = math.SparseMatrix.fromJSON(extent.burnMatrix);
+
+          burnMatrix.map((value, index) => {
+            cellValues.push({ value, index });
+            return value;
+          }, true);
+
+          const perimeterXYs = concaveman(
+            cellValues.map((cell) => cell.index),
+            1
+          );
+          const perimeterPoints = perimeterXYs.map(
+            (xy) => new L.Point(xy[1] + origin.x, xy[0] + origin.y)
+          );
+          const perimeter = perimeterPoints.map((point) =>
+            map.unproject(point, SCALE)
+          );
+
+          return (
+            <Polygon
+              key={`${extent.id}-perimeters`}
+              positions={perimeter}
+              fillColor="transparent"
+            />
+          );
+        })}
       </FeatureGroup>
 
-      <FeatureGroup>
+      {/* <FeatureGroup>
         {timesteps.map((timestep) =>
           timestep.extents.map((extent) => {
             if (!extent?.perimeters?.burning) return null;
@@ -137,7 +168,7 @@ export const CampaignCells: React.FC = () => {
             />
           );
         })}
-      </FeatureGroup>
+      </FeatureGroup> */}
     </>
   );
 };
