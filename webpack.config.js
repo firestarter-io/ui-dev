@@ -39,15 +39,8 @@ module.exports = {
       "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Methods": "*",
     },
-    stats: {
-      colors: true,
-      hash: false,
-      version: false,
-      timings: false,
-      assets: false,
-      chunks: false,
-    },
   },
+  stats: "minimal",
   module: {
     rules: [
       {

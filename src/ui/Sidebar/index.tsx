@@ -82,7 +82,7 @@ const SidebarComponent: React.FC<Props> = ({ map }: Props) => {
         <p>Click the map to begin a campaign at that point.</p>
       </Tab>
 
-      <Tab id={NavTabs.LAYERS} header="Custom Layer Types" icon={<FiLayers />}>
+      <Tab id={NavTabs.LAYERS} header="Custom Layer" icon={<FiLayers />}>
         <p>Custom layers tab</p>
       </Tab>
 
