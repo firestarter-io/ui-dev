@@ -27,35 +27,31 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.ts", "*.tsx"], // Your TypeScript files extension
+      files: ["*.ts", "*.tsx"],
       parserOptions: {
-        project: ["./tsconfig.json"], // Specify it only for TypeScript files
+        project: ["./tsconfig.json"],
       },
     },
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
-      jsx: true, // Allows for the parsing of JSX
+      jsx: true,
     },
     ecmaVersion: 2018,
     sourceType: "module",
   },
   plugins: ["react", "react-hooks", "prettier", "@typescript-eslint"],
   rules: {
-    // indent: ['warning', 'tab'],
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/aria-role": [0],
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/no-static-element-interactions": [0],
-    // 	'member-access': [0],
-    // 	'no-empty-interface': 'off',
+    "jsx-a11y/label-has-associated-control": [0],
     "import/no-unresolved": "off",
     "react/button-has-type": [0],
     "no-underscore-dangle": "off",
-    // 	'dot-notation': 'off',
-    // 	'interface-name': [0, 'never-prefix'],
     "react/jsx-filename-extension": [
       1,
       { extensions: [".js", ".jsx", ".tsx", ".ts"] },
