@@ -15,12 +15,15 @@ import {
   MapContainer as UnstyledMapContainer,
   useMapEvents,
   Rectangle,
+  useMap,
 } from "react-leaflet";
 import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionCreators as CampaignActionCreators } from "common/store/campaign/actions";
 import { ApplicationState } from "store";
 import { NavTabs } from "ui/Sidebar";
+import { getMapLocation, updatePermalink } from "utils/permalink";
+import { DEFAULT_CENTER } from "map/constants";
 import LayersControl from "./LayersControl";
 import { getEsriToken } from "../../utils/esri";
 import { CampaignCells } from "./CampaignCells";
@@ -37,10 +40,15 @@ const MapContainer = styled(UnstyledMapContainer)`
 const MapEvents: React.FC = () => {
   const dispatch = useDispatch();
 
+  const map = useMap();
+
   useMapEvents({
     click: (e) => {
       console.log(e.latlng);
       dispatch(CampaignActionCreators.RequestNewCampaign({ latlng: e.latlng }));
+    },
+    moveend: () => {
+      updatePermalink(map.getCenter(), map.getZoom());
     },
   });
   return null;
@@ -72,11 +80,13 @@ const Map: React.FC<MapProps> = ({ setMap }: MapProps) => {
     );
   }, []);
 
+  const { center, zoom } = getMapLocation({ center: DEFAULT_CENTER, zoom: 12 });
+
   return (
     <MapContainer
       doubleClickZoom={false}
-      center={{ lat: 34.64926102336086, lng: -118.55522867292167 }}
-      zoom={12}
+      center={center}
+      zoom={zoom}
       id="mapId"
       preferCanvas
       whenCreated={(map) => {
